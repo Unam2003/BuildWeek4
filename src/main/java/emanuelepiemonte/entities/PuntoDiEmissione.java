@@ -2,6 +2,7 @@ package emanuelepiemonte.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -15,6 +16,9 @@ public abstract class PuntoDiEmissione {
     private UUID emissioneId;
     private String indirizzo;
     private String citta;
+
+    @OneToMany(mappedBy = "puntoDiEmissione")
+    private List<Abbonamento> abbonamenti;
 
     protected PuntoDiEmissione() {
 
