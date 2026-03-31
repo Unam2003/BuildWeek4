@@ -15,14 +15,14 @@ public class Utente {
     private UUID utenteId;
     private String nome;
     private String cognome;
+    @Enumerated(EnumType.STRING)
     private Sesso sesso;
     private LocalDate data_di_nascita;
 
     protected Utente() {
     }
 
-    public Utente(UUID utenteId, String nome, String cognome, Sesso sesso, LocalDate data_di_nascita) {
-        this.utenteId = utenteId;
+    public Utente(String nome, String cognome, Sesso sesso, LocalDate data_di_nascita) {
         this.nome = nome;
         this.cognome = cognome;
         this.sesso = sesso;

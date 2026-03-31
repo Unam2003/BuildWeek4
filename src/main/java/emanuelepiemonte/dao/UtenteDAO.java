@@ -1,6 +1,5 @@
 package emanuelepiemonte.dao;
 
-import emanuelepiemonte.entities.Tessera;
 import emanuelepiemonte.entities.Utente;
 import emanuelepiemonte.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
@@ -23,11 +22,11 @@ public class UtenteDAO {
         System.out.println("L'utente " + newUtente.getUtenteId() + " è stato salvato correttamente");
     }
 
-    public Tessera findById(UUID tesseraId) {
-        Tessera found = em.find(Tessera.class, tesseraId);
+    public Utente trovaUtentiPerId(UUID utenteId) {
+        Utente found = em.find(Utente.class, utenteId);
 
         if (found == null) {
-            throw new NotFoundException(tesseraId);
+            throw new NotFoundException(utenteId);
         }
 
         return found;

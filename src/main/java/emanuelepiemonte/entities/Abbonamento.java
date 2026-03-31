@@ -14,6 +14,7 @@ public class Abbonamento {
     @Column(name = "abbonamento_id")
     private UUID abbonamentoId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "periodicita")
     private PeriodicitaAbb periodicita;
 
@@ -44,9 +45,10 @@ public class Abbonamento {
             this.dataScadenza = dataEmissione.plusDays(7);
         }
         this.rivenditore = rivenditore;
+
     }
 
-    public Abbonamento(PeriodicitaAbb periodicita, PuntoDiEmissione rivenditore) {
+    public Abbonamento(PeriodicitaAbb periodicita, PuntoDiEmissione rivenditore, Tessera tessera) {
         this.periodicita = periodicita;
         this.dataEmissione = LocalDate.now();
         if (periodicita == PeriodicitaAbb.MENSILE) {
@@ -55,6 +57,7 @@ public class Abbonamento {
             this.dataScadenza = dataEmissione.plusDays(7);
         }
         this.rivenditore = rivenditore;
+        this.tessera = tessera;
     }
 
     public UUID getAbbonamentoId() {
@@ -80,6 +83,7 @@ public class Abbonamento {
     public Tessera getTessera() {
         return tessera;
     }
+
 
     @Override
     public String toString() {
