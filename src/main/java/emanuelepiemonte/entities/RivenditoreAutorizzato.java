@@ -1,11 +1,13 @@
 package emanuelepiemonte.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("Rivenditore")
 public class RivenditoreAutorizzato extends PuntoDiEmissione {
+    @Column(name = "nome_attivita")
     private String nomeAttivita;
 
     protected RivenditoreAutorizzato() {
