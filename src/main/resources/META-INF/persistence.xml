@@ -7,6 +7,13 @@
         <class>emanuelepiemonte.entities.DistributoreAutomatico</class>
         <class>emanuelepiemonte.entities.RivenditoreAutorizzato</class>
         <class>emanuelepiemonte.entities.Tessera</class>
+        <class>emanuelepiemonte.entities.Biglietto</class>
+        <class>emanuelepiemonte.entities.Manutenzione</class>
+        <class>emanuelepiemonte.entities.Abbonamento</class>
+        <class>emanuelepiemonte.entities.Mezzo</class>
+        <class>emanuelepiemonte.entities.Tratta</class>
+        <class>emanuelepiemonte.entities.Utente</class>
+        <class>emanuelepiemonte.entities.PercorrenzaTratta</class>
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/BuildWeek4"/>
             <property name="jakarta.persistence.jdbc.user" value="postgres"/>

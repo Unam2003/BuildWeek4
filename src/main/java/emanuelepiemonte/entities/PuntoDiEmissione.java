@@ -17,7 +17,7 @@ public abstract class PuntoDiEmissione {
     private String indirizzo;
     private String citta;
 
-    @OneToMany(mappedBy = "puntoDiEmissione")
+    @OneToMany(mappedBy = "rivenditore")
     private List<Abbonamento> abbonamenti;
 
     protected PuntoDiEmissione() {

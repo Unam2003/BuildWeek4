@@ -23,9 +23,9 @@ public class Biglietto {
     @Column(name = "data_annullamento")
     private LocalDate dataAnnullamento;
 
-//    @ManyToOne
-//    @JoinColumn(name = "mezzo_id")
-//    private Mezzo mezzoId;
+    @ManyToOne
+    @JoinColumn(name = "mezzo_id")
+    private Mezzo mezzoId;
 
     public Biglietto() {
     }

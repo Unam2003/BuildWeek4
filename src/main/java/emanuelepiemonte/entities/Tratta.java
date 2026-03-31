@@ -23,7 +23,7 @@ public class Tratta {
     @Column(name = "tempo_previsto_tratta")
     private Integer tempoPrevistoTratta;
 
-    @OneToMany(mappedBy = "tratta_id")
+    @OneToMany(mappedBy = "tratta")
     private List<PercorrenzaTratta> percorrenze = new ArrayList<>();
 
     //COSTRUTTORI
