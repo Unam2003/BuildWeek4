@@ -6,6 +6,7 @@
         <class>emanuelepiemonte.entities.PuntoDiEmissione</class>
         <class>emanuelepiemonte.entities.DistributoreAutomatico</class>
         <class>emanuelepiemonte.entities.RivenditoreAutorizzato</class>
+        <class>emanuelepiemonte.entities.Tessera</class>
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/BuildWeek4"/>
             <property name="jakarta.persistence.jdbc.user" value="postgres"/>
