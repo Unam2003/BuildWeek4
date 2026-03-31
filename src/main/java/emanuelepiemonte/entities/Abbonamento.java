@@ -27,9 +27,9 @@ public class Abbonamento {
     @JoinColumn(name = "rivenditore_id")
     private PuntoDiEmissione rivenditore;
 
-//    @ManyToOne
-//    @JoinColumn(name = "tessera_id")
-//    private Tessera tessera;
+    @ManyToOne
+    @JoinColumn(name = "tessera_id")
+    private Tessera tessera;
 
 
     public Abbonamento() {
@@ -55,5 +55,41 @@ public class Abbonamento {
             this.dataScadenza = dataEmissione.plusDays(7);
         }
         this.rivenditore = rivenditore;
+    }
+
+    public UUID getAbbonamentoId() {
+        return abbonamentoId;
+    }
+
+    public PeriodicitaAbb getPeriodicita() {
+        return periodicita;
+    }
+
+    public LocalDate getDataEmissione() {
+        return dataEmissione;
+    }
+
+    public LocalDate getDataScadenza() {
+        return dataScadenza;
+    }
+
+    public PuntoDiEmissione getRivenditore() {
+        return rivenditore;
+    }
+
+    public Tessera getTessera() {
+        return tessera;
+    }
+
+    @Override
+    public String toString() {
+        return "Abbonamento{" +
+                "abbonamentoId=" + abbonamentoId +
+                ", periodicita=" + periodicita +
+                ", dataEmissione=" + dataEmissione +
+                ", dataScadenza=" + dataScadenza +
+                ", rivenditore=" + rivenditore +
+                ", tessera=" + tessera +
+                '}';
     }
 }
