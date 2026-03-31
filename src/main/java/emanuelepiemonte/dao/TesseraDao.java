@@ -1,26 +1,26 @@
 package emanuelepiemonte.dao;
 
 import emanuelepiemonte.entities.Tessera;
-import emanuelepiemonte.entities.Utente;
 import emanuelepiemonte.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
 import java.util.UUID;
 
-public class UtenteDAO {
+public class TesseraDao {
+
     private final EntityManager em;
 
-    public UtenteDAO(EntityManager em) {
+    public TesseraDao(EntityManager em) {
         this.em = em;
     }
 
-    public void save(Utente newUtente) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.persist(newUtente);
-        transaction.commit();
-        System.out.println("L'utente " + newUtente.getUtenteId() + " è stato salvato correttamente");
+    public void save(Tessera newTessera) {
+        EntityTransaction t = em.getTransaction();
+        t.begin();
+        em.persist(newTessera);
+        t.commit();
+        System.out.println("La tessera " + newTessera.getTesseraId() + " è stata salvata correttamente");
     }
 
     public Tessera findById(UUID tesseraId) {
