@@ -1,5 +1,6 @@
 package emanuelepiemonte.entities;
 
+import emanuelepiemonte.enums.Sesso;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
