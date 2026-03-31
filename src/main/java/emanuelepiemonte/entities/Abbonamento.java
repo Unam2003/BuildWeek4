@@ -45,4 +45,15 @@ public class Abbonamento {
         }
         this.rivenditore = rivenditore;
     }
+
+    public Abbonamento(PeriodicitaAbb periodicita, PuntoDiEmissione rivenditore) {
+        this.periodicita = periodicita;
+        this.dataEmissione = LocalDate.now();
+        if (periodicita == PeriodicitaAbb.MENSILE) {
+            this.dataScadenza = dataEmissione.plusMonths(1);
+        } else if (periodicita == PeriodicitaAbb.SETTIMANALE) {
+            this.dataScadenza = dataEmissione.plusDays(7);
+        }
+        this.rivenditore = rivenditore;
+    }
 }

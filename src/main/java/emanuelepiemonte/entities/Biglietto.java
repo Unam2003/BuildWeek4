@@ -36,6 +36,12 @@ public class Biglietto {
         this.dataAnnullamento = dataAnnullamento;
     }
 
+    public Biglietto(PuntoDiEmissione rivenditore, LocalDate dataAnnullamento) {
+        this.rivenditore = rivenditore;
+        this.dataEmissione = LocalDate.now();
+        this.dataAnnullamento = dataAnnullamento;
+    }
+
     public PuntoDiEmissione getRivenditore() {
         return rivenditore;
     }
