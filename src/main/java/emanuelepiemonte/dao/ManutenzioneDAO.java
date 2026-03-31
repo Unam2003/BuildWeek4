@@ -71,7 +71,7 @@ public class ManutenzioneDAO {
     }
 
     //QUERY PIU' SPECIFICHE
-    
+
     //Prende tutte le Manutenzioni IN CORSO
     public List<Manutenzione> getManutenzioniInCorso() {
         TypedQuery<Manutenzione> query = em.createQuery(

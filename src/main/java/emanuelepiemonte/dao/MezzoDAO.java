@@ -1,9 +1,12 @@
 package emanuelepiemonte.dao;
 
+import emanuelepiemonte.entities.Manutenzione;
 import emanuelepiemonte.entities.Mezzo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class MezzoDAO {
@@ -67,5 +70,42 @@ public class MezzoDAO {
         } catch (Exception e) {
             System.out.println("Errore durante il l'update: " + e.getMessage());
         }
+    }
+
+    //QUERY PIU' SPECIFICHE
+
+    //Conta quanti biglietti sono stati validati su in singolo mezzo
+    public int bigliettiValidatiSuMezzo(int mezzoId) {
+        TypedQuery<Integer> query = em.createQuery(
+                "SELECT COUNT(b) FROM Biglietto b WHERE b.mezzo.mezzoId = :id",
+                Integer.class);
+
+        query.setParameter("id", mezzoId);
+        return query.getSingleResult();
+    }
+
+    //Ritorna TUTTI i mezzi in manutenzione
+    public List<Mezzo> getMezziInManutenzione() {
+        TypedQuery<Mezzo> query = em.createQuery(
+                "SELECT m FROM Mezzo m JOIN m.manutenzioni man WHERE man.dataFine IS NULL",
+                Mezzo.class);
+
+        return query.getResultList();
+    }
+
+    //Manutenzioni di un MEZZO SPECIFICO in un certo periodo
+    public List<Manutenzione> getManutenzioniPerPeriodo(Long mezzoId, LocalDate inizio, LocalDate fine) {
+        TypedQuery<Manutenzione> query = em.createQuery(
+                "SELECT man FROM Mezzo m JOIN m.manutenzioni man " +
+                        "WHERE m.mezzoId = :id " +
+                        "AND man.dataInizio >= :inizio " +
+                        "AND (man.dataFine <= :fine OR man.dataFine IS NULL)",
+                Manutenzione.class);
+
+        query.setParameter("id", mezzoId);
+        query.setParameter("inizio", inizio);
+        query.setParameter("fine", fine);
+
+        return query.getResultList();
     }
 }

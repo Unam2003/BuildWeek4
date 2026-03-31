@@ -93,4 +93,20 @@ public class PercorrenzaTrattaDAO {
         query.setParameter("id", mezzoId);
         return query.getResultList();
     }
+
+    //Conta quante volte un MEZZO SPECIFICO ha percorso OGNI TRATTA DIFFERENTE
+    public void printDettaglioPercorrenzePerTratta(Long mezzoId) {
+        List<Object[]> risultati = em.createQuery(
+                        "SELECT p.tratta.zonaPartenza, p.tratta.capolinea, COUNT(p) " +
+                                "FROM PercorrenzaTratta p " +
+                                "WHERE p.mezzo.mezzoId = :id " +
+                                "GROUP BY p.tratta.zonaPartenza, p.tratta.capolinea", Object[].class)
+                .setParameter("id", mezzoId)
+                .getResultList();
+
+        System.out.println("Dettaglio percorrenze per il mezzo ID: " + mezzoId);
+        for (Object[] riga : risultati) {
+            System.out.println("Tratta: " + riga[0] + " -> " + riga[1] + " | Volte percorse: " + riga[2]);
+        }
+    }
 }
