@@ -10,8 +10,8 @@ import java.util.UUID;
 public class Biglietto {
     @Id
     @GeneratedValue
-    @Column(name = "abbonamento_id")
-    private UUID abbonamentoId;
+    @Column(name = "biglietto_id")
+    private UUID bigliettoId;
 
     @ManyToOne
     @JoinColumn(name = "rivenditore_id")
@@ -47,7 +47,7 @@ public class Biglietto {
     }
 
     public UUID getAbbonamentoId() {
-        return abbonamentoId;
+        return bigliettoId;
     }
 
     public LocalDate getDataEmissione() {
@@ -61,7 +61,7 @@ public class Biglietto {
     @Override
     public String toString() {
         return "Biglietto{" +
-                "abbonamentoId=" + abbonamentoId +
+                "abbonamentoId=" + bigliettoId +
                 ", rivenditore=" + rivenditore +
                 ", dataEmissione=" + dataEmissione +
                 ", dataAnnullamento=" + dataAnnullamento +

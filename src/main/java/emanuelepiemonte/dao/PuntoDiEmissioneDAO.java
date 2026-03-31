@@ -4,6 +4,8 @@ import emanuelepiemonte.entities.PuntoDiEmissione;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.time.LocalDate;
+
 public class PuntoDiEmissioneDAO {
     private final EntityManager em;
 
@@ -17,5 +19,31 @@ public class PuntoDiEmissioneDAO {
         em.persist(newPuntoDiEmissione);
         transaction.commit();
         System.out.println("L'emissione " + newPuntoDiEmissione.getEmissioneId() + " è stato salvato correttamente!");
+    }
+
+    // History dei biglietti emessi dal distributore
+    public void countBigliettiDistributore(LocalDate inizio, LocalDate fine) {
+        long risultato = em.createQuery(
+                        "SELECT COUNT(b) FROM Biglietto b " +
+                                "WHERE TYPE(b.rivenditore) = DistributoreAutomatico " +
+                                "AND b.dataEmissione BETWEEN :inizio AND :fine", Long.class)
+                .setParameter("inizio", inizio)
+                .setParameter("fine", fine)
+                .getSingleResult();
+
+        System.out.println("Biglietti emessi dai Distributori: " + risultato);
+    }
+
+    // History dei biglietti venduti dai rivenditori
+    public void countBigliettiRivenditore(LocalDate inizio, LocalDate fine) {
+        long risultato = em.createQuery(
+                        "SELECT COUNT(b) FROM Biglietto b " +
+                                "WHERE TYPE(b.rivenditore) = RivenditoreAutorizzato " +
+                                "AND b.dataEmissione BETWEEN :inizio AND :fine", Long.class)
+                .setParameter("inizio", inizio)
+                .setParameter("fine", fine)
+                .getSingleResult();
+
+        System.out.println("Biglietti emessi dai Rivenditori: " + risultato);
     }
 }

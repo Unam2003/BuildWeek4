@@ -12,10 +12,14 @@ import java.util.UUID;
 public abstract class PuntoDiEmissione {
     @Id
     @GeneratedValue
-    @Column(name = "rivenditore_id")
+    @Column(name = "punto_rivenditore_id")
     private UUID emissioneId;
     private String indirizzo;
     private String citta;
+
+
+    @OneToMany(mappedBy = "rivenditore")
+    private List<Biglietto> bigliettiEmessi;
 
     @OneToMany(mappedBy = "rivenditore")
     private List<Abbonamento> abbonamenti;
