@@ -22,6 +22,14 @@ public class UtenteDAO {
         System.out.println("L'utente " + newUtente.getUtenteId() + " è stato salvato correttamente");
     }
 
+    public void update(Utente newUtente) {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.merge(newUtente);
+        transaction.commit();
+        System.out.println("L'utente " + newUtente.getUtenteId() + " è stato salvato correttamente");
+    }
+
     public Utente trovaUtentiPerId(UUID utenteId) {
         Utente found = em.find(Utente.class, utenteId);
 

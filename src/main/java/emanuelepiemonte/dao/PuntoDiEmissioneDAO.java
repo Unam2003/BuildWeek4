@@ -23,6 +23,14 @@ public class PuntoDiEmissioneDAO {
         System.out.println("L'emissione " + newPuntoDiEmissione.getEmissioneId() + " è stato salvato correttamente!");
     }
 
+    public void update(PuntoDiEmissione newPuntoDiEmissione) {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.merge(newPuntoDiEmissione);
+        transaction.commit();
+        System.out.println("L'emissione " + newPuntoDiEmissione.getEmissioneId() + " è stato aggiornato correttamente!");
+    }
+
     public PuntoDiEmissione trovaPuntoById(UUID emissioneId) {
         PuntoDiEmissione found = em.find(PuntoDiEmissione.class, emissioneId);
 

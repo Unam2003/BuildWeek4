@@ -23,8 +23,9 @@ public class Manutenzione {
     private LocalDate dataFine;
 
     @ManyToOne
-    @JoinColumn(name = "mezzo_id", nullable = false)
+    @JoinColumn(name = "mezzo_id")
     private Mezzo mezzo;
+
 
     //COSTRUTTORI
 
@@ -63,8 +64,24 @@ public class Manutenzione {
         return descrizione;
     }
 
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
+
+    public Mezzo getMezzo() {
+        return mezzo;
+    }
+
+    public void setMezzo(Mezzo mezzo) {
+        this.mezzo = mezzo;
+    }
+
     public LocalDate getDataInizio() {
         return dataInizio;
+    }
+
+    public void setDataInizio(LocalDate dataInizio) {
+        this.dataInizio = dataInizio;
     }
 
     public LocalDate getDataFine() {
@@ -75,12 +92,15 @@ public class Manutenzione {
         this.dataFine = dataFine;
     }
 
-    public void setDataInizio(LocalDate dataInizio) {
-        this.dataInizio = dataInizio;
-    }
-
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
+    @Override
+    public String toString() {
+        return "Manutenzione{" +
+                "manutenzioneId=" + manutenzioneId +
+                ", descrizione='" + descrizione + '\'' +
+                ", dataInizio=" + dataInizio +
+                ", dataFine=" + dataFine +
+                ", mezzo=" + mezzo +
+                '}';
     }
 
     public Mezzo getMezzo() {

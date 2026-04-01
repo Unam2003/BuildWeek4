@@ -1,6 +1,7 @@
 package emanuelepiemonte.entities;
 
 import emanuelepiemonte.enums.Sesso;
+import emanuelepiemonte.enums.UserType;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -18,15 +19,23 @@ public class Utente {
     @Enumerated(EnumType.STRING)
     private Sesso sesso;
     private LocalDate data_di_nascita;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_type")
+    private UserType userType;
+    private String pw;
+    private String username;
 
-    protected Utente() {
+    public Utente() {
     }
 
-    public Utente(String nome, String cognome, Sesso sesso, LocalDate data_di_nascita) {
+    public Utente(String nome, String cognome, Sesso sesso, LocalDate data_di_nascita, UserType userType, String pw) {
         this.nome = nome;
         this.cognome = cognome;
         this.sesso = sesso;
         this.data_di_nascita = data_di_nascita;
+        this.pw = pw;
+        this.userType = userType;
+        this.username = (nome + cognome).toLowerCase();
     }
 
     public UUID getUtenteId() {
@@ -49,14 +58,38 @@ public class Utente {
         return data_di_nascita;
     }
 
+    public String getPw() {
+        return pw;
+    }
+
+    public void setPw(String pw) {
+        this.pw = pw;
+    }
+
+    public void setData_di_nascita(LocalDate data_di_nascita) {
+        this.data_di_nascita = data_di_nascita;
+    }
+
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
     @Override
     public String toString() {
         return "Utente{" +
-                "utenteId=" + utenteId +
+                "cognome='" + cognome + '\'' +
                 ", nome='" + nome + '\'' +
-                ", cognome='" + cognome + '\'' +
-                ", sesso=" + sesso +
-                ", data_di_nascita=" + data_di_nascita +
+                ", userType=" + userType + '\'' +
+                ", data_di_nascita=" + data_di_nascita + '\'' +
+                ", sesso=" + sesso + '\'' +
                 '}';
     }
 }

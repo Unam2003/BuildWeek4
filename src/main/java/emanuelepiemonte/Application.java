@@ -9,10 +9,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.UUID;
-
 public class Application {
 
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("BuildWeek4");
@@ -24,19 +20,27 @@ public class Application {
         TesseraDao tesseraDao = new TesseraDao(em);
         AbbonamentoDAO abbonamentoDao = new AbbonamentoDAO(em);
         PuntoDiEmissioneDAO puntoDiEmissioneDAO = new PuntoDiEmissioneDAO(em);
+        MezzoDAO mezzoDAO = new MezzoDAO(em);
+        ManutenzioneDAO manutenzioneDao = new ManutenzioneDAO(em);
+
 
         // Test Giorgia per :
 
         //ABBONAMENTO
 
 
-        Utente u1 = new Utente("Mario", "Rossi", Sesso.MASCHIO, LocalDate.of(1990, 5, 10));
-        Utente u2 = new Utente("Luigi", "Verdi", Sesso.FEMMINA, LocalDate.of(1985, 3, 20));
-        Utente u3 = new Utente("Anna", "Bianchi", Sesso.ALTRO, LocalDate.of(2000, 7, 15));
+//        Utente u1 = new Utente("Mario", "Rossi", Sesso.MASCHIO, LocalDate.of(1990, 5, 10));
+//        Utente u2 = new Utente("Luigi", "Verdi", Sesso.FEMMINA, LocalDate.of(1985, 3, 20));
+//        Utente u3 = new Utente("Anna", "Bianchi", Sesso.ALTRO, LocalDate.of(2000, 7, 15));
 
 //        utenteDao.save(u1);
 //        utenteDao.save(u2);
 //        utenteDao.save(u3);
+
+        RegistrazioneLogin rl = new RegistrazioneLogin();
+        rl.registrazione(em);
+        Utente loggedIn = rl.login(em);
+        System.out.println(loggedIn.toString());
 
         // UTENTE
 
@@ -46,9 +50,9 @@ public class Application {
 
         // TESSERA
 
-        Tessera t1 = new Tessera(u1fromDB);
-        Tessera t2 = new Tessera(u2fromDB);
-        Tessera t3 = new Tessera(u3fromDB);
+//        Tessera t1 = new Tessera(u1fromDB);
+//        Tessera t2 = new Tessera(u2fromDB);
+//        Tessera t3 = new Tessera(u3fromDB);
 
 //        tesseraDao.save(t1);
 //        tesseraDao.save(t2);
@@ -61,8 +65,8 @@ public class Application {
 
         // PUNTO DI EMISSIONE
 
-        DistributoreAutomatico d1 = new DistributoreAutomatico("Via Roma 18", "Bologna", true);
-        RivenditoreAutorizzato r1 = new RivenditoreAutorizzato("Via delle Gioia 38", "Palermo", "Da Pina");
+//        DistributoreAutomatico d1 = new DistributoreAutomatico("Via Roma 18", "Bologna", true);
+//        RivenditoreAutorizzato r1 = new RivenditoreAutorizzato("Via delle Gioia 38", "Palermo", "Da Pina");
 
 
 //        puntoDiEmissioneDAO.save(d1);
@@ -77,8 +81,8 @@ public class Application {
                 (DistributoreAutomatico) puntoDiEmissioneDAO.trovaPuntoById(UUID.fromString("7da27ac7-5042-4f31-a0cc-4765e82aa5cb"));
 
 
-        Abbonamento a1 = new Abbonamento(PeriodicitaAbb.MENSILE, r1fromDB, t1fromDB);
-        Abbonamento a2 = new Abbonamento(PeriodicitaAbb.SETTIMANALE, d1fromDB, t2fromDB);
+//        Abbonamento a1 = new Abbonamento(PeriodicitaAbb.MENSILE, r1fromDB, t1fromDB);
+//        Abbonamento a2 = new Abbonamento(PeriodicitaAbb.SETTIMANALE, d1fromDB, t2fromDB);
 
 //        abbonamentoDao.salva(a1);
 //        abbonamentoDao.salva(a2);
@@ -98,27 +102,27 @@ public class Application {
 //        tesseraDao.save(t5); // PER SCADENZA
 
 
-        System.out.println("------------------------- TEST Trovo tessera da id utente-----------------------");
-        Tessera t1fromDBdaUtente = tesseraDao.trovaTesseraDaUtente(u1fromDB.getUtenteId());
-        Tessera t2fromDBdaUtente = tesseraDao.trovaTesseraDaUtente(u2fromDB.getUtenteId());
-        Tessera t3fromDBdaUtente = tesseraDao.trovaTesseraDaUtente(u3fromDB.getUtenteId());
-        System.out.println(t1fromDBdaUtente);
-        System.out.println(t2fromDBdaUtente);
-        System.out.println(t3fromDBdaUtente);
+//        System.out.println("------------------------- TEST Trovo tessera da id utente-----------------------");
+//        Tessera t1fromDBdaUtente = tesseraDao.trovaTesseraDaUtente(u1fromDB.getUtenteId());
+//        Tessera t2fromDBdaUtente = tesseraDao.trovaTesseraDaUtente(u2fromDB.getUtenteId());
+//        Tessera t3fromDBdaUtente = tesseraDao.trovaTesseraDaUtente(u3fromDB.getUtenteId());
+//        System.out.println(t1fromDBdaUtente);
+//        System.out.println(t2fromDBdaUtente);
+//        System.out.println(t3fromDBdaUtente);
 
-        System.out.println("----------------------- TEST trovaTutteTessere -------------------------");
-        List<Tessera> tutteLeTessere = tesseraDao.trovaTutteTessere();
-        tutteLeTessere.forEach(System.out::println);
-
-
-        System.out.println("------------------------ TEST trovaTutteScadute -----------------------------");
-        List<Tessera> tessereScadute = tesseraDao.trovaTutteScadute();
-        tessereScadute.forEach(System.out::println);
+//        System.out.println("----------------------- TEST trovaTutteTessere -------------------------");
+//        List<Tessera> tutteLeTessere = tesseraDao.trovaTutteTessere();
+//        tutteLeTessere.forEach(System.out::println);
 
 
-        System.out.println("-------------------------TEST TrovaTutteAttive---------------------------------");
-        List<Tessera> tessereAttive = tesseraDao.trovaTutteAttive();
-        tessereAttive.forEach(System.out::println);
+//        System.out.println("------------------------ TEST trovaTutteScadute -----------------------------");
+//        List<Tessera> tessereScadute = tesseraDao.trovaTutteScadute();
+//        tessereScadute.forEach(System.out::println);
+
+
+//        System.out.println("-------------------------TEST TrovaTutteAttive---------------------------------");
+//        List<Tessera> tessereAttive = tesseraDao.trovaTutteAttive();
+//        tessereAttive.forEach(System.out::println);
 
 
         System.out.println("-------------------------- TEST TrovaInScadenza -------------------------------");
@@ -388,6 +392,18 @@ public class Application {
 
         System.out.println("-------------------------- TEST volte tratta per mezzo -------------------------------");
         ptDAO.printDettaglioPercorrenzePerTratta(m2FromDB.getMezzoId());
+//        System.out.println("-------------------------- TEST TrovaInScadenza -------------------------------");
+//        List<Tessera> tessereInScadenza = tesseraDao.trovaInScadenza(LocalDate.now().plusDays(30));
+//        tessereInScadenza.forEach(System.out::println);
+
+
+//        System.out.println("-------------------------- TEST Creazione Mezzo e cambiare Stato IN_MANUTEZIONE -------------------------------");
+//        Mezzo bus = new Mezzo(TipoDiMezzo.AUTOBUS, "SDWER23");
+//        mezzoDAO.save(bus);
+
+//        manutenzioneDao.entraInManutenzione(bus, "Rottura cambio");
+        em.close();
+        emf.close();
     }
 
 

@@ -25,7 +25,7 @@ public class Biglietto {
 
     @ManyToOne
     @JoinColumn(name = "mezzo_id")
-    private Mezzo mezzoId;
+    private Mezzo mezzo;
 
     public Biglietto() {
     }
@@ -46,6 +46,13 @@ public class Biglietto {
     // Al momento manca modo di abbinare biglietto al mezzo setter necessario aggiunto ... RIFLETTUTO: Questo per che il modo che abbiamo al momento per validare il biglietto e
     // associarlo dopo al mezzo .. quindi il biglietto non puo'nascere con il mezzo nel costruttore.. ma parte da null
     // Pero'a sto punto aggiungo un UPDATE nel biglietto DAO che non c e'
+    public Mezzo getMezzo() {
+        return mezzo;
+    }
+
+    public void setMezzo(Mezzo mezzo) {
+        this.mezzo = mezzo;
+    }
 
     public PuntoDiEmissione getRivenditore() {
         return rivenditore;
@@ -72,11 +79,22 @@ public class Biglietto {
     }
 
     // aggiungo mezzo se no non vedo update
+    public void setDataAnnullamento(LocalDate dataAnnullamento) {
+        this.dataAnnullamento = dataAnnullamento;
+    }
+
+    public void setDataEmissione(LocalDate dataEmissione) {
+        this.dataEmissione = dataEmissione;
+    }
+
+    public void setRivenditore(PuntoDiEmissione rivenditore) {
+        this.rivenditore = rivenditore;
+    }
 
     @Override
     public String toString() {
         return "Biglietto{" +
-                "abbonamentoId=" + bigliettoId +
+                "bigliettoId=" + bigliettoId +
                 ", rivenditore=" + rivenditore +
                 ", dataEmissione=" + dataEmissione +
                 ", dataAnnullamento=" + dataAnnullamento +

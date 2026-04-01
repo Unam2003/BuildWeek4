@@ -1,5 +1,6 @@
 package emanuelepiemonte.entities;
 
+import emanuelepiemonte.enums.StatoMezzo;
 import emanuelepiemonte.enums.TipoDiMezzo;
 import jakarta.persistence.*;
 
@@ -46,21 +47,10 @@ public class Mezzo {
         this.tipoDiMezzo = tipoDiMezzo;
         this.targa = targa;
         this.capienza = tipoDiMezzo.getValore();
+        this.stato = StatoMezzo.IN_SERVIZIO;
     }
 
     //GETTER E SETTER - SGN
-
-    public void setCapienza(int capienza) {
-        this.capienza = capienza;
-    }
-
-    public void setTipoDiMezzo(TipoDiMezzo tipoDiMezzo) {
-        this.tipoDiMezzo = tipoDiMezzo;
-    }
-
-    public void setTarga(String targa) {
-        this.targa = targa;
-    }
 
     public Long getMezzoId() {
         return mezzoId;
@@ -70,12 +60,28 @@ public class Mezzo {
         return capienza;
     }
 
+    public void setCapienza(int capienza) {
+        this.capienza = capienza;
+    }
+
     public TipoDiMezzo getTipoDiMezzo() {
         return tipoDiMezzo;
     }
 
+    public void setTipoDiMezzo(TipoDiMezzo tipoDiMezzo) {
+        this.tipoDiMezzo = tipoDiMezzo;
+    }
+
     public String getTarga() {
         return targa;
+    }
+
+    public void setTarga(String targa) {
+        this.targa = targa;
+    }
+
+    public void setStato(StatoMezzo stato) {
+        this.stato = stato;
     }
 
     public List<Manutenzione> getManutenzioni() {

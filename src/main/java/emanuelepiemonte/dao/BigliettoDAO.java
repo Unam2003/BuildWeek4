@@ -24,6 +24,15 @@ public class BigliettoDAO {
         System.out.println("Biglietto " + newBiglietto.getBigliettoId() + " erogato con successo");
     }
 
+    //UPDATE
+    public void update(Biglietto newBiglietto) {
+        EntityTransaction t = em.getTransaction();
+        t.begin();
+        em.merge(newBiglietto);
+        t.commit();
+        System.out.println("Biglietto " + newBiglietto.getBigliettoId() + " aggiornato!");
+    }
+
     //    METODO PER TROVARE BIGLIETTO DA ID
     public Biglietto findById(UUID bigliettoId) {
         Biglietto found = em.find(Biglietto.class, bigliettoId);

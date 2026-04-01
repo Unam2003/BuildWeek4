@@ -43,8 +43,7 @@ public class PercorrenzaTrattaDAO {
             em.merge(percorrenza);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction.isActive()) transaction.rollback();
-            e.printStackTrace();
+            System.out.println("Errore nell'update: " + e.getMessage());
         }
     }
 
