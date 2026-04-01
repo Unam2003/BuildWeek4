@@ -5,6 +5,7 @@ import emanuelepiemonte.entities.*;
 import emanuelepiemonte.enums.PeriodicitaAbb;
 import emanuelepiemonte.enums.Sesso;
 import emanuelepiemonte.enums.TipoDiMezzo;
+import emanuelepiemonte.enums.UserType;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -212,7 +213,6 @@ public class AdminMain {
     // ----------!!!!!!!!!!!!
     // ---------- MENU UTENTI E TESSERE
     // ----------!!!!!!!!!!!!
-    //TODO: REGISTRAZIONE NUOVO ADMIN
     private void menuUtenti(Scanner scanner) {
         boolean indietro = false;
         while (!indietro) {
@@ -220,6 +220,7 @@ public class AdminMain {
             System.out.println("1. Registra nuovo Utente");
             System.out.println("2. Emetti nuova Tessera per Utente");
             System.out.println("3. Rinnova Tessera scaduta");
+            System.out.println("4. Rendi un Utente come nuovo ADMIN! (serve l'ID)");
             System.out.println("0. Torna al menu principale");
             System.out.print("Scelta: ");
 
@@ -245,7 +246,7 @@ public class AdminMain {
                         String dataNascitaInput = scanner.nextLine();
                         LocalDate dataNascita = LocalDate.parse(dataNascitaInput);
 
-                        Utente nuovoUtente = new Utente(nome, cognome, sesso, dataNascita);
+                        Utente nuovoUtente = new Utente(nome, cognome, sesso, dataNascita, UserType.USER, "1234");
                         utenteDAO.save(nuovoUtente);
                         System.out.println("Utente creato con successo!");
 
@@ -293,6 +294,29 @@ public class AdminMain {
                         System.out.println("Errore: " + e.getMessage());
                     }
                     break;
+
+                case 4:
+                    System.out.println("Inserisci l'ID dell'utente che vorresti rendere ADMIN!");
+                    String uuidUtenteDaAdminizzare = scanner.nextLine();
+
+                    try {
+                        UUID uuidUtente = UUID.fromString(uuidUtenteDaAdminizzare);
+                        Utente daAdminizzare = utenteDAO.trovaUtentiPerId(uuidUtente);
+                        System.out.println("L'utente trovato è: " + daAdminizzare.getNome() + " " + daAdminizzare.getCognome());
+                        int corretto;
+                        do {
+                            System.out.println("Corretto? 1=SI 2=NO");
+                            corretto = Integer.parseInt(scanner.nextLine());
+                        } while (corretto != 1 && corretto != 2);
+                        if (corretto == 2) break;
+                        else {
+                            daAdminizzare.setUserType(UserType.ADMIN);
+                            utenteDAO.update(daAdminizzare);
+                            System.out.println("L'utente è stato impostato come amministratore!");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Errore: " + e.getMessage());
+                    }
 
                 case 0:
                     indietro = true;

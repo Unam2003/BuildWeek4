@@ -56,6 +56,30 @@ public class Utente {
         return data_di_nascita;
     }
 
+    public String getPw() {
+        return pw;
+    }
+
+    public void setPw(String pw) {
+        this.pw = pw;
+    }
+
+    public void setData_di_nascita(LocalDate data_di_nascita) {
+        this.data_di_nascita = data_di_nascita;
+    }
+
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
     @Override
     public String toString() {
         return "Utente{" +
