@@ -70,4 +70,16 @@ public class Tratta {
     public void setTempoPrevistoTratta(Integer tempoPrevistoTratta) {
         this.tempoPrevistoTratta = tempoPrevistoTratta;
     }
+
+    @Override
+    public String toString() {
+        return "Tratta{" +
+                "trattaId=" + trattaId +
+                ", zonaPartenza='" + zonaPartenza + '\'' +
+                ", capolinea='" + capolinea + '\'' +
+                ", tempoPrevistoTratta=" + tempoPrevistoTratta +
+                ", percorrenze=" + percorrenze +
+                '}';
+    }
 }
+

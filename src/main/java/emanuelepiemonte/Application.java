@@ -1,9 +1,6 @@
 package emanuelepiemonte;
 
-import emanuelepiemonte.dao.AbbonamentoDAO;
-import emanuelepiemonte.dao.PuntoDiEmissioneDAO;
-import emanuelepiemonte.dao.TesseraDao;
-import emanuelepiemonte.dao.UtenteDAO;
+import emanuelepiemonte.dao.*;
 import emanuelepiemonte.entities.*;
 import emanuelepiemonte.enums.PeriodicitaAbb;
 import emanuelepiemonte.enums.Sesso;
@@ -42,9 +39,9 @@ public class Application {
 
         // UTENTE
 
-        Utente u3fromDB = utenteDao.trovaUtentiPerId(UUID.fromString("06627139-af26-4b8d-bac9-f70787cb2ebc"));
-        Utente u2fromDB = utenteDao.trovaUtentiPerId(UUID.fromString("1367b4fd-8efe-460c-b069-e7ffbe2dc504"));
-        Utente u1fromDB = utenteDao.trovaUtentiPerId(UUID.fromString("701dd322-f40a-4c92-b97e-0491a04c8632"));
+        Utente u3fromDB = utenteDao.trovaUtentiPerId(UUID.fromString("031d58dd-a760-476c-b604-7a6140854a21"));
+        Utente u2fromDB = utenteDao.trovaUtentiPerId(UUID.fromString("22da0f66-e09e-4d31-993a-3c72f3ead787"));
+        Utente u1fromDB = utenteDao.trovaUtentiPerId(UUID.fromString("933fb2f0-a6d0-4bac-b3f8-04b61808da5c"));
 
         // TESSERA
 
@@ -53,12 +50,12 @@ public class Application {
         Tessera t3 = new Tessera(u3fromDB);
 
 //        tesseraDao.save(t1);
-//      tesseraDao.save(t2);
+//        tesseraDao.save(t2);
 //        tesseraDao.save(t3);
 
-        Tessera t1fromDB = tesseraDao.findById(UUID.fromString("1f647180-01d7-492f-8a2c-24f59ba76eae"));
-        Tessera t2fromDB = tesseraDao.findById(UUID.fromString("4a6757b1-1aaf-4cca-9802-892430310927"));
-        Tessera t3fromDB = tesseraDao.findById(UUID.fromString("de64a63a-a309-48a1-b2ec-590b62b11f45"));
+        Tessera t1fromDB = tesseraDao.findById(UUID.fromString("1bb9ceb7-4854-42ca-820a-62766c88c724"));
+        Tessera t2fromDB = tesseraDao.findById(UUID.fromString("d23194c4-36c1-4b8e-b43d-ff7748d32eba"));
+        Tessera t3fromDB = tesseraDao.findById(UUID.fromString("7fb8ea85-5197-4ba9-943b-1fc372f26cea"));
 
 
         // PUNTO DI EMISSIONE
@@ -73,10 +70,10 @@ public class Application {
         // Serve un cast perche restituisce classe padre.. In alternativa ancora meglio se non si conosce cosa tornera' posso fare un if con instance of
 
         RivenditoreAutorizzato r1fromDB =
-                (RivenditoreAutorizzato) puntoDiEmissioneDAO.trovaPuntoById(UUID.fromString("65b7ffad-f70b-4381-96fb-be3744487adb"));
+                (RivenditoreAutorizzato) puntoDiEmissioneDAO.trovaPuntoById(UUID.fromString("235df389-879f-4d18-b3ce-07507e2b84b4"));
 
         DistributoreAutomatico d1fromDB =
-                (DistributoreAutomatico) puntoDiEmissioneDAO.trovaPuntoById(UUID.fromString("c96ec501-fd0a-475d-b91b-eb9104739da2"));
+                (DistributoreAutomatico) puntoDiEmissioneDAO.trovaPuntoById(UUID.fromString("7da27ac7-5042-4f31-a0cc-4765e82aa5cb"));
 
 
         Abbonamento a1 = new Abbonamento(PeriodicitaAbb.MENSILE, r1fromDB, t1fromDB);
@@ -88,16 +85,16 @@ public class Application {
 
         // TEST TESSERA DAO
         Utente u4 = new Utente("Angelo", "Molteni", Sesso.MASCHIO, LocalDate.of(1987, 12, 21));
-        //   utenteDao.save(u4);
-        Utente u4fromDB = utenteDao.trovaUtentiPerId(UUID.fromString("410fe1dc-29c1-48be-b4ea-589308a03f26"));
+//        utenteDao.save(u4);
+        Utente u4fromDB = utenteDao.trovaUtentiPerId(UUID.fromString("f0d5d782-ce14-4262-92ea-5ceaf2295cb6"));
         Tessera t4 = new Tessera(LocalDate.now().minusYears(2), u4fromDB); // PER SCADUTE
 //        tesseraDao.save(t4);
 
         Utente u5 = new Utente("Luca", "Neri", Sesso.MASCHIO, LocalDate.of(1988, 6, 15));
-        utenteDao.save(u5);
+//        utenteDao.save(u5);
 
         Tessera t5 = new Tessera(LocalDate.now().minusDays(355), u5);
-        tesseraDao.save(t5); // PER SCADENZA
+//        tesseraDao.save(t5); // PER SCADENZA
 
 
         System.out.println("------------------------- TEST Trovo tessera da id utente-----------------------");
@@ -126,6 +123,74 @@ public class Application {
         System.out.println("-------------------------- TEST TrovaInScadenza -------------------------------");
         List<Tessera> tessereInScadenza = tesseraDao.trovaInScadenza(LocalDate.now().plusDays(30));
         tessereInScadenza.forEach(System.out::println);
+
+
+        // Test Giorgia giorno 2
+
+        TrattaDAO trattaDAO = new TrattaDAO(em);
+
+        Tratta tr1 = new Tratta("Napoli", "Salerno", 45);
+        Tratta tr2 = new Tratta("Bergamo", "Verona", 90);
+        Tratta tr3 = new Tratta("FI-Careggi", "FI-Porta Al Prato", 17);
+        Tratta tr4 = new Tratta("Cologno al Serio", "Bergamo", 20);
+        Tratta tr5 = new Tratta("Napoli", "Aversa", 43);
+        Tratta tr6 = new Tratta("Milano", "Bergamo", 38);
+
+//        trattaDAO.save(tr1);
+//        trattaDAO.save(tr2);
+//        trattaDAO.save(tr3);
+//        trattaDAO.save(tr4);
+//        trattaDAO.save(tr5);
+        //      trattaDAO.save(tr6);
+
+        System.out.println("-------------------------- TEST TrovaTrattaPerId -------------------------------");
+
+        Tratta tr1FromDB = trattaDAO.getById(1L);
+        Tratta tr2FromDB = trattaDAO.getById(2L);
+        Tratta tr3FromDB = trattaDAO.getById(3L);
+        Tratta tr4FromDB = trattaDAO.getById(52L);
+        Tratta tr5FromDB = trattaDAO.getById(53L);
+        Tratta tr6FromDB = trattaDAO.getById(102L);
+        System.out.println(tr1FromDB);
+        System.out.println(tr2FromDB);
+        System.out.println(tr3FromDB);
+        System.out.println(tr4FromDB);
+        System.out.println(tr5FromDB);
+        System.out.println(tr6FromDB);
+
+
+        System.out.println("-------------------------- TEST TrovaTutteTratte -------------------------------");
+
+
+        List<Tratta> trTutte = trattaDAO.getAll();
+        trTutte.forEach(System.out::println);
+
+
+        System.out.println("-------------------------- TEST aggiorna -------------------------------");
+
+//        System.out.println("PRIMA:");
+//        System.out.println(trattaDAO.getById(tr1FromDB.getTrattaId()));
+//        tr1FromDB.setCapolinea("Roma");
+//        tr1FromDB.setTempoPrevistoTratta(120);
+//        trattaDAO.update(tr1);
+//        System.out.println("DOPO:");
+//        System.out.println(trattaDAO.getById(tr1FromDB.getTrattaId()));
+
+        System.out.println("-------------------------- TEST per cancella -------------------------------");
+//        trattaDAO.deleteById(tr4FromDB.getTrattaId());
+//        trattaDAO.getAll().forEach(System.out::println);
+//
+        // null pointer se gia cancellata
+
+
+        System.out.println("-------------------------- TEST   trovaPerPartenza -------------------------------");
+        ;
+        trattaDAO.getByPartenza("Napoli").forEach(System.out::println);
+
+
+        System.out.println("-------------------------- TEST   trovaPerArrivo -------------------------------");
+        trattaDAO.getByArrivo("Bergamo").forEach(System.out::println);
+
     }
 
 
