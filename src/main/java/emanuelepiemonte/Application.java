@@ -4,6 +4,7 @@ import emanuelepiemonte.dao.*;
 import emanuelepiemonte.entities.*;
 import emanuelepiemonte.enums.PeriodicitaAbb;
 import emanuelepiemonte.enums.Sesso;
+import emanuelepiemonte.enums.TipoDiMezzo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -127,6 +128,8 @@ public class Application {
 
         // Test Giorgia giorno 2
 
+        // TRATTA
+
         TrattaDAO trattaDAO = new TrattaDAO(em);
 
         Tratta tr1 = new Tratta("Napoli", "Salerno", 45);
@@ -190,6 +193,85 @@ public class Application {
 
         System.out.println("-------------------------- TEST   trovaPerArrivo -------------------------------");
         trattaDAO.getByArrivo("Bergamo").forEach(System.out::println);
+
+
+        // MEZZO BASE
+        MezzoDAO mezzoDAO = new MezzoDAO(em);
+        BigliettoDAO bigliettiDAO = new BigliettoDAO(em);
+
+        Mezzo m1 = new Mezzo(TipoDiMezzo.AUTOBUS, "AB123CD");
+        Mezzo m2 = new Mezzo(TipoDiMezzo.TRAM, "TR456EF");
+        Mezzo m3 = new Mezzo(TipoDiMezzo.AUTOBUS, "XY789ZZ");
+
+//        mezzoDAO.save(m1);
+//        mezzoDAO.save(m2);
+//        mezzoDAO.save(m3);
+
+        System.out.println("-------------------------- TEST  TrovaDaID -------------------------------");
+
+        Mezzo m1FromDB = mezzoDAO.getById(1L);
+        Mezzo m2FromDB = mezzoDAO.getById(2L);
+        Mezzo m3FromDB = mezzoDAO.getById(3L);
+
+        System.out.println(m1FromDB);
+        System.out.println(m2FromDB);
+        System.out.println(m3FromDB);
+
+        System.out.println("-------------------------- TEST  PrendiTutti -------------------------------");
+
+        List<Mezzo> tuttiIMezzi = mezzoDAO.getAll();
+        tuttiIMezzi.forEach(System.out::println);
+
+
+        System.out.println("-------------------------- TEST  Aggiorna -------------------------------");
+
+        System.out.println("PRIMA:");
+        System.out.println(mezzoDAO.getById(m1FromDB.getMezzoId()));
+
+        m1FromDB.setTarga("ZZ000YY");
+        m1FromDB.setTipoDiMezzo(TipoDiMezzo.TRAM);
+
+        mezzoDAO.update(m1FromDB);
+
+        System.out.println("DOPO:");
+        System.out.println(mezzoDAO.getById(m1FromDB.getMezzoId()));
+
+
+        // BIGLIETTI per DAO MEZZO
+
+        Biglietto b1 = new Biglietto(r1fromDB, LocalDate.of(2026, 3, 31));
+        Biglietto b2 = new Biglietto(d1fromDB, LocalDate.of(2026, 3, 31));
+        Biglietto b3 = new Biglietto(d1fromDB, LocalDate.of(2026, 3, 16));
+        Biglietto b4 = new Biglietto(d1fromDB, LocalDate.of(2026, 2, 8));
+        Biglietto b5 = new Biglietto(d1fromDB, LocalDate.of(2026, 3, 31));
+
+//        bigliettiDAO.save(b1);
+//        bigliettiDAO.save(b2);
+//        bigliettiDAO.save(b3);
+//        bigliettiDAO.save(b4);
+//        bigliettiDAO.save(b5);
+
+        System.out.println("-------------------------- Trova Biglietto -------------------------------");
+
+        Biglietto b1FromDB = bigliettiDAO.findById(UUID.fromString("11132b22-e34f-4d40-92de-f20b21287e42"));
+        Biglietto b2FromDB = bigliettiDAO.findById(UUID.fromString("384639e0-c0a1-4efa-93c6-f82d8ce73d8d"));
+        Biglietto b3FromDB = bigliettiDAO.findById(UUID.fromString("93dec3e1-2864-444d-bcd3-a0998efe05b8"));
+        Biglietto b4FromDB = bigliettiDAO.findById(UUID.fromString("c0f374c8-c475-4ae4-980f-297f6081e09b"));
+        Biglietto b5FromDB = bigliettiDAO.findById(UUID.fromString("e9e01193-0743-4378-ad1c-6d496e26cf35"));
+
+        System.out.println("-------------------------- Piu setta il bus di validazione -------------------------------");
+        b1FromDB.setMezzoId(m1FromDB);
+        b2FromDB.setMezzoId(m1FromDB);
+        b3FromDB.setMezzoId(m1FromDB);
+        b4FromDB.setMezzoId(m2FromDB);
+        b5FromDB.setMezzoId(m2FromDB);
+
+
+        System.out.println(b1FromDB);
+        System.out.println(b2FromDB);
+        System.out.println(b3FromDB);
+        System.out.println(b4FromDB);
+        System.out.println(b5FromDB);
 
     }
 

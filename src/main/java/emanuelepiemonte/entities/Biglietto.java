@@ -42,6 +42,9 @@ public class Biglietto {
         this.dataAnnullamento = dataAnnullamento;
     }
 
+
+    // Al momento manca modo di abbinare biglietto al mezzo
+
     public PuntoDiEmissione getRivenditore() {
         return rivenditore;
     }
@@ -56,6 +59,14 @@ public class Biglietto {
 
     public LocalDate getDataAnnullamento() {
         return dataAnnullamento;
+    }
+
+    public Mezzo getMezzoId() {
+        return mezzoId;
+    }
+
+    public void setMezzoId(Mezzo mezzoId) {
+        this.mezzoId = mezzoId;
     }
 
     @Override

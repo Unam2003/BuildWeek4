@@ -18,7 +18,7 @@ public class Mezzo {
     @Column(name = "capienza")
     private int capienza;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_di_mezzo")
     private TipoDiMezzo tipoDiMezzo;
 
@@ -85,5 +85,19 @@ public class Mezzo {
 
     public List<PercorrenzaTratta> getPercorrenze() {
         return percorrenze;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Mezzo{" +
+                "mezzoId=" + mezzoId +
+                ", capienza=" + capienza +
+                ", tipoDiMezzo=" + tipoDiMezzo +
+                ", targa='" + targa + '\'' +
+                ", manutenzioni=" + manutenzioni +
+                ", percorrenze=" + percorrenze +
+                ", bigliettiValidati=" + bigliettiValidati +
+                '}';
     }
 }
