@@ -1,6 +1,7 @@
 package emanuelepiemonte.entities;
 
 import emanuelepiemonte.enums.Sesso;
+import emanuelepiemonte.enums.UserType;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -18,15 +19,21 @@ public class Utente {
     @Enumerated(EnumType.STRING)
     private Sesso sesso;
     private LocalDate data_di_nascita;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_type")
+    private UserType userType;
+    private String pw;
 
-    protected Utente() {
+    public Utente() {
     }
 
-    public Utente(String nome, String cognome, Sesso sesso, LocalDate data_di_nascita) {
+    public Utente(String nome, String cognome, Sesso sesso, LocalDate data_di_nascita, UserType userType, String pw) {
         this.nome = nome;
         this.cognome = cognome;
         this.sesso = sesso;
         this.data_di_nascita = data_di_nascita;
+        this.pw = pw;
+        this.userType = userType;
     }
 
     public UUID getUtenteId() {
