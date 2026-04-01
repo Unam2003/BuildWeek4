@@ -1,12 +1,10 @@
 package emanuelepiemonte;
 
-import emanuelepiemonte.dao.AbbonamentoDAO;
-import emanuelepiemonte.dao.PuntoDiEmissioneDAO;
-import emanuelepiemonte.dao.TesseraDao;
-import emanuelepiemonte.dao.UtenteDAO;
+import emanuelepiemonte.dao.*;
 import emanuelepiemonte.entities.*;
 import emanuelepiemonte.enums.PeriodicitaAbb;
 import emanuelepiemonte.enums.Sesso;
+import emanuelepiemonte.enums.TipoDiMezzo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -26,6 +24,8 @@ public class Application {
         TesseraDao tesseraDao = new TesseraDao(em);
         AbbonamentoDAO abbonamentoDao = new AbbonamentoDAO(em);
         PuntoDiEmissioneDAO puntoDiEmissioneDAO = new PuntoDiEmissioneDAO(em);
+        MezzoDAO mezzoDAO = new MezzoDAO(em);
+        ManutenzioneDAO manutenzioneDao = new ManutenzioneDAO(em);
 
 
         // Test Giorgia per :
@@ -127,6 +127,15 @@ public class Application {
         System.out.println("-------------------------- TEST TrovaInScadenza -------------------------------");
         List<Tessera> tessereInScadenza = tesseraDao.trovaInScadenza(LocalDate.now().plusDays(30));
         tessereInScadenza.forEach(System.out::println);
+
+
+        System.out.println("-------------------------- TEST Creazione Mezzo e cambiare Stato IN_MANUTEZIONE -------------------------------");
+        Mezzo bus = new Mezzo(TipoDiMezzo.AUTOBUS, "SDWER23");
+        mezzoDAO.save(bus);
+
+        manutenzioneDao.entraInManutenzione(bus, "Rottura cambio");
+        em.close();
+        emf.close();
     }
 
 
