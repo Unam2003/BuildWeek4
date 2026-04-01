@@ -1,6 +1,7 @@
 package emanuelepiemonte;
 
 import emanuelepiemonte.dao.*;
+import emanuelepiemonte.entities.Utente;
 import emanuelepiemonte.utils.RegistrazioneLogin;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -35,7 +36,8 @@ public class Application {
 //        utenteDao.save(u3);
 
         RegistrazioneLogin rl = new RegistrazioneLogin();
-        rl.registrazione(em);
+//        rl.registrazione(em);
+        Utente loggedIn = rl.login(em);
 
         // UTENTE
 
