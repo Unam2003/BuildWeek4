@@ -1,6 +1,8 @@
 package emanuelepiemonte.dao;
 
 import emanuelepiemonte.entities.Manutenzione;
+import emanuelepiemonte.entities.Mezzo;
+import emanuelepiemonte.enums.StatoMezzo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
@@ -79,4 +81,20 @@ public class ManutenzioneDAO {
                 Manutenzione.class);
         return query.getResultList();
     }
+
+
+    // Creazione manutenzione e cambio stato mezzo (IN MANUTENZIONE)
+    public void entraInManutenzione(Mezzo m, String motivo) {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+
+        Manutenzione manutenzione = new Manutenzione(motivo);
+        manutenzione.setMezzo(m);
+        m.setStato(StatoMezzo.IN_MANUTENZIONE);
+        em.persist(manutenzione);
+        em.merge(m);
+        transaction.commit();
+    }
+    
+
 }

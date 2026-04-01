@@ -5,8 +5,8 @@ import emanuelepiemonte.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
-import java.util.UUID;
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class PuntoDiEmissioneDAO {
     private final EntityManager em;
@@ -31,6 +31,8 @@ public class PuntoDiEmissioneDAO {
         }
 
         return found;
+    }
+
     // History dei biglietti emessi dal distributore
     public void countBigliettiDistributore(LocalDate inizio, LocalDate fine) {
         long risultato = em.createQuery(
