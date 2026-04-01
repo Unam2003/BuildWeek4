@@ -73,8 +73,8 @@ public class PercorrenzaTratta {
         return "PercorrenzaTratta{" +
                 "percorsoId=" + percorsoId +
                 ", tempoEffettivoTratta=" + tempoEffettivoTratta +
-                ", tratta=" + tratta +
-                ", mezzo=" + mezzo +
+                ", trattaId=" + (tratta != null ? tratta.getTrattaId() : null) +
+                ", mezzoId=" + (mezzo != null ? mezzo.getMezzoId() : null) +
                 '}';
     }
 }

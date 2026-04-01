@@ -341,7 +341,53 @@ public class Application {
 
         PercorrenzaTrattaDAO ptDAO = new PercorrenzaTrattaDAO(em);
 
+        PercorrenzaTratta pt1 = new PercorrenzaTratta(50, tr1FromDB, m1FromDB);
+        PercorrenzaTratta pt2 = new PercorrenzaTratta(47, tr1FromDB, m1FromDB);
+        PercorrenzaTratta pt3 = new PercorrenzaTratta(60, tr1FromDB, m2FromDB);
+        PercorrenzaTratta pt4 = new PercorrenzaTratta(95, tr2FromDB, m2FromDB);
+        PercorrenzaTratta pt5 = new PercorrenzaTratta(90, tr2FromDB, m2FromDB);
 
+//
+//        ptDAO.save(pt1);
+//        ptDAO.save(pt2);
+//        ptDAO.save(pt3);
+//        ptDAO.save(pt4);
+//        ptDAO.save(pt5);
+
+
+        System.out.println("-------------------------- Trova PercorrenzaTratta -------------------------------");
+        PercorrenzaTratta pt1FromDB = ptDAO.getById(1L); //    Occhio bisogna usare percorso_id della tabella
+        PercorrenzaTratta pt2FromDB = ptDAO.getById(2L);
+        PercorrenzaTratta pt3FromDB = ptDAO.getById(3L);
+        PercorrenzaTratta pt4FromDB = ptDAO.getById(4L);
+        PercorrenzaTratta pt5FromDB = ptDAO.getById(5L);
+
+        System.out.println(pt1FromDB);
+        System.out.println(pt2FromDB);
+        System.out.println(pt3FromDB);
+        System.out.println(pt4FromDB);
+        System.out.println(pt5FromDB);
+
+
+        System.out.println("-------------------------- Prendo tutte percorrenze stampo lista -------------------------------");
+        ptDAO.getAll().forEach(System.out::println);
+
+        System.out.println("-------------------------- TEST TempoMedioPerTratta -------------------------------");
+        System.out.println(ptDAO.getTempoMedioPerTratta(tr1FromDB.getTrattaId()));
+
+
+        System.out.println("-------------------------- TEST getTempoMedioPerTrattaEMezzo -------------------------------");
+        System.out.println(ptDAO.getTempoMedioPerTrattaEMezzo(
+                tr1FromDB.getTrattaId(),
+                m1FromDB.getMezzoId()
+        ));
+
+        System.out.println("-------------------------- TEST TratteFatteDalMezzo -------------------------------");
+        ptDAO.getByMezzo(m1FromDB.getMezzoId()).forEach(System.out::println);
+
+
+        System.out.println("-------------------------- TEST volte tratta per mezzo -------------------------------");
+        ptDAO.printDettaglioPercorrenzePerTratta(m2FromDB.getMezzoId());
     }
 
 

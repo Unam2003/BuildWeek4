@@ -71,14 +71,14 @@ public class Tratta {
         this.tempoPrevistoTratta = tempoPrevistoTratta;
     }
 
+
     @Override
     public String toString() {
         return "Tratta{" +
                 "trattaId=" + trattaId +
-                ", zonaPartenza='" + zonaPartenza + '\'' +
-                ", capolinea='" + capolinea + '\'' +
+                ", zonaPartenza='" + zonaPartenza +
+                ", capolinea='" + capolinea +
                 ", tempoPrevistoTratta=" + tempoPrevistoTratta +
-                ", percorrenze=" + percorrenze +
                 '}';
     }
 }

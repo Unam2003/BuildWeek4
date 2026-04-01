@@ -93,10 +93,7 @@ public class Mezzo {
                 "mezzoId=" + mezzoId +
                 ", capienza=" + capienza +
                 ", tipoDiMezzo=" + tipoDiMezzo +
-                ", targa='" + targa + '\'' +
-                ", manutenzioni=" + manutenzioni +
-                ", percorrenze=" + percorrenze +
-                ", bigliettiValidati=" + bigliettiValidati +
+                ", targa='" + targa + ' ' +
                 '}';
     }
 }
