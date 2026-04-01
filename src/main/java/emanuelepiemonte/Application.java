@@ -27,6 +27,7 @@ public class Application {
         AbbonamentoDAO abbonamentoDao = new AbbonamentoDAO(em);
         PuntoDiEmissioneDAO puntoDiEmissioneDAO = new PuntoDiEmissioneDAO(em);
 
+
         // Test Giorgia per :
 
         //ABBONAMENTO
