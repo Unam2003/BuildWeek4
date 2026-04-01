@@ -1,11 +1,13 @@
 package emanuelepiemonte.dao;
 
 import emanuelepiemonte.entities.PuntoDiEmissione;
+import emanuelepiemonte.exceptions.CityNotFoundException;
 import emanuelepiemonte.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 public class PuntoDiEmissioneDAO {
@@ -39,6 +41,16 @@ public class PuntoDiEmissioneDAO {
         }
 
         return found;
+    }
+
+    public List<PuntoDiEmissione> trovaPuntiPerCitta(String citta) {
+        List<PuntoDiEmissione> punti = em.createQuery("SELECT p FROM PuntoDiEmissione p WHERE p.citta = :citta", PuntoDiEmissione.class)
+                .setParameter("citta", citta)
+                .getResultList();
+        if (punti == null) {
+            throw new CityNotFoundException(citta);
+        }
+        return punti;
     }
 
     // History dei biglietti emessi dal distributore

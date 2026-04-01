@@ -36,7 +36,7 @@ public class Abbonamento {
     public Abbonamento() {
     }
 
-    public Abbonamento(PeriodicitaAbb periodicita, LocalDate dataEmissione, PuntoDiEmissione rivenditore) {
+    public Abbonamento(PeriodicitaAbb periodicita, LocalDate dataEmissione, PuntoDiEmissione rivenditore, Tessera tessera) {
         this.periodicita = periodicita;
         this.dataEmissione = dataEmissione;
         if (periodicita == PeriodicitaAbb.MENSILE) {
@@ -45,7 +45,7 @@ public class Abbonamento {
             this.dataScadenza = dataEmissione.plusDays(7);
         }
         this.rivenditore = rivenditore;
-
+        this.tessera = tessera;
     }
 
     public Abbonamento(PeriodicitaAbb periodicita, PuntoDiEmissione rivenditore, Tessera tessera) {
@@ -87,13 +87,12 @@ public class Abbonamento {
 
     @Override
     public String toString() {
-        return "Abbonamento{" +
+        return " ABBONAMENTO: " +
                 "abbonamentoId=" + abbonamentoId +
                 ", periodicita=" + periodicita +
                 ", dataEmissione=" + dataEmissione +
                 ", dataScadenza=" + dataScadenza +
                 ", rivenditore=" + rivenditore +
-                ", tessera=" + tessera +
-                '}';
+                ", tessera=" + tessera;
     }
 }

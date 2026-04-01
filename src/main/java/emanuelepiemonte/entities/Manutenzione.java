@@ -82,12 +82,11 @@ public class Manutenzione {
 
     @Override
     public String toString() {
-        return "Manutenzione{" +
+        return " MANUTENZIONE: " +
                 "manutenzioneId=" + manutenzioneId +
-                ", descrizione='" + descrizione + '\'' +
+                ", descrizione=" + descrizione +
                 ", dataInizio=" + dataInizio +
                 ", dataFine=" + dataFine +
-                ", mezzo=" + mezzo +
-                '}';
+                ", mezzo=" + mezzo;
     }
 }

@@ -68,11 +68,11 @@ public class Tessera {
 
     @Override
     public String toString() {
-        return "Tessera{" +
-                "tesseraId=" + tesseraId +
-                ", dataEmissione=" + dataEmissione +
-                ", data_scadenza=" + data_scadenza +
-                '}';
+        return " TESSERA: " +
+                "data di emissione=" + dataEmissione +
+                ", data di scadenza=" + data_scadenza +
+                ", Id=" + tesseraId;
+
     }
 }
 

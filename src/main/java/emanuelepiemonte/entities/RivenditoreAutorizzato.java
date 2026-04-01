@@ -24,8 +24,11 @@ public class RivenditoreAutorizzato extends PuntoDiEmissione {
 
     @Override
     public String toString() {
-        return "RivenditoreAutorizzato{" +
-                "nomeAttivita='" + nomeAttivita + '\'' +
-                '}';
+        return " RIVENDITORE AUTORIZZATO: " +
+                "Nome attività=" + nomeAttivita +
+                " Citta=" + super.getCitta() +
+                " Indirizzo=" + super.getIndirizzo() +
+                " Id=" + super.getEmissioneId();
     }
+
 }

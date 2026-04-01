@@ -53,10 +53,11 @@ public class AbbonamentoDAO {
                             Abbonamento.class)
                     .setParameter("tesseraId", tesseraId)
                     .setParameter("oggi", LocalDate.now())
+                    .setMaxResults(1)
                     .getSingleResult();
 
         } catch (NoResultException e) {
-            throw new NotFoundException("Nessun abbonamento attivo per la tessera " + tesseraId);
+            return null;
         }
     }
 

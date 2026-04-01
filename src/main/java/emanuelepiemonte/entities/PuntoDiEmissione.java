@@ -47,10 +47,9 @@ public abstract class PuntoDiEmissione {
 
     @Override
     public String toString() {
-        return "PuntoDiEmissione{" +
-                "emissioneId=" + emissioneId +
-                ", indirizzo='" + indirizzo + '\'' +
-                ", citta='" + citta + '\'' +
-                '}';
+        return " RIVENDITORE: " +
+                "Id=" + emissioneId +
+                ", indirizzo=" + indirizzo +
+                ", citta=" + citta;
     }
 }

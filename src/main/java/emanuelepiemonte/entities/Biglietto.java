@@ -80,11 +80,10 @@ public class Biglietto {
 
     @Override
     public String toString() {
-        return "Biglietto{" +
-                "bigliettoId=" + bigliettoId +
+        return " BIGLIETTO: " +
+                "Id=" + bigliettoId +
                 ", rivenditore=" + rivenditore +
                 ", dataEmissione=" + dataEmissione +
-                ", dataAnnullamento=" + dataAnnullamento +
-                '}';
+                ", dataAnnullamento=" + dataAnnullamento;
     }
 }

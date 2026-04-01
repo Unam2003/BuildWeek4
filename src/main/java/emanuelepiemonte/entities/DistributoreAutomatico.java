@@ -27,4 +27,13 @@ public class DistributoreAutomatico extends PuntoDiEmissione {
     public void setInServizio(boolean inServizio) {
         this.inServizio = inServizio;
     }
+
+    @Override
+    public String toString() {
+        return " DISTRIBUTORE AUTOMATICO: " +
+                "In Funzione=" + inServizio +
+                " Citta=" + super.getCitta() +
+                " Indirizzo=" + super.getIndirizzo() +
+                " Id=" + super.getEmissioneId();
+    }
 }

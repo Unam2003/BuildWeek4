@@ -50,6 +50,10 @@ public class Utente {
         return cognome;
     }
 
+    public UserType getUserType() {
+        return userType;
+    }
+
     public Sesso getSesso() {
         return sesso;
     }
@@ -84,12 +88,11 @@ public class Utente {
 
     @Override
     public String toString() {
-        return "Utente{" +
-                "cognome='" + cognome + '\'' +
-                ", nome='" + nome + '\'' +
-                ", userType=" + userType + '\'' +
-                ", data_di_nascita=" + data_di_nascita + '\'' +
-                ", sesso=" + sesso + '\'' +
-                '}';
+        return " UTENTE: " +
+                "cognome=" + cognome +
+                ", nome=" + nome +
+                ", data di nascita=" + data_di_nascita +
+                ", sesso=" + sesso +
+                ", autorizzazione=" + userType;
     }
 }

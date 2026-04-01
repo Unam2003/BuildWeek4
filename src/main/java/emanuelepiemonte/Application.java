@@ -1,11 +1,15 @@
 package emanuelepiemonte;
 
-import emanuelepiemonte.dao.*;
 import emanuelepiemonte.entities.Utente;
+import emanuelepiemonte.enums.UserType;
+import emanuelepiemonte.utils.AdminMain;
 import emanuelepiemonte.utils.RegistrazioneLogin;
+import emanuelepiemonte.utils.UtenteMain;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+
+import java.util.Scanner;
 
 public class Application {
 
@@ -13,15 +17,43 @@ public class Application {
 
     public static void main(String[] args) {
         EntityManager em = emf.createEntityManager();
-
-        UtenteDAO utenteDao = new UtenteDAO(em);
-        TesseraDao tesseraDao = new TesseraDao(em);
-        AbbonamentoDAO abbonamentoDao = new AbbonamentoDAO(em);
-        PuntoDiEmissioneDAO puntoDiEmissioneDAO = new PuntoDiEmissioneDAO(em);
-        MezzoDAO mezzoDAO = new MezzoDAO(em);
-        ManutenzioneDAO manutenzioneDao = new ManutenzioneDAO(em);
+        Scanner scanner = new Scanner(System.in);
+        //UTILS
+        RegistrazioneLogin rl = new RegistrazioneLogin();
+        UtenteMain um = new UtenteMain();
+        AdminMain am = new AdminMain(emf);
 
 
+        System.out.println("BENVENUTO");
+        while (true) {
+            Utente utenteLoggato = null;
+            System.out.println("0. Esci");
+            System.out.println("1. Registrati!");
+            System.out.println("2. Login");
+            String input = scanner.nextLine();
+            switch (input) {
+                case "0" -> {
+                    break;
+                }
+                case "1" -> {
+                    rl.registrazione(em);
+                    continue;
+                }
+                case "2" -> utenteLoggato = rl.login(em);
+                default -> {
+                    System.out.println("Valore non valido");
+                    continue;
+                }
+            }
+
+            if (input.equals("0")) break;
+
+            if (utenteLoggato.getUserType() == UserType.ADMIN) {
+                am.adminMenu(scanner);
+            } else if (utenteLoggato.getUserType() == UserType.USER) {
+                um.menuUtente(em, utenteLoggato);
+            }
+        }
         // Test Giorgia per :
 
         //ABBONAMENTO
@@ -35,10 +67,11 @@ public class Application {
 //        utenteDao.save(u2);
 //        utenteDao.save(u3);
 
-        RegistrazioneLogin rl = new RegistrazioneLogin();
-        rl.registrazione(em);
-        Utente loggedIn = rl.login(em);
-        System.out.println(loggedIn.toString());
+
+//        Utente loggedIn = rl.login(em);
+//        am.adminMenu(scanner);
+//        um.menuUtente(em, loggedIn);
+
 
         // UTENTE
 

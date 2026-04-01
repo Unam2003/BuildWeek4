@@ -69,11 +69,11 @@ public class TrattaDAO {
         }
     }
     //QUERY PIU' SPECIFICHE
-    
+
     //Prendo tutte le Tratte per Partenza
     public List<Tratta> getByPartenza(String partenza) {
         TypedQuery<Tratta> query = em.createQuery(
-                "SELECT t FROM Tratta t WHERE t.zonaPartenza = :p",
+                "SELECT t FROM Tratta t WHERE LOWER(t.zonaPartenza) = LOWER(:p)",
                 Tratta.class);
         query.setParameter("p", partenza);
         return query.getResultList();
@@ -82,7 +82,7 @@ public class TrattaDAO {
     //Prendo tutte le Tratte per Arrivo
     public List<Tratta> getByArrivo(String arrivo) {
         TypedQuery<Tratta> query = em.createQuery(
-                "SELECT t FROM Tratta t WHERE t.capolinea = :t",
+                "SELECT t FROM Tratta t WHERE LOWER(t.capolinea) = LOWER(:t)",
                 Tratta.class);
         query.setParameter("t", arrivo);
         return query.getResultList();
