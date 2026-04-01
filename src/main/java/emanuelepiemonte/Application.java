@@ -279,6 +279,14 @@ public class Application {
         System.out.println(b4FromDB);
         System.out.println(b5FromDB);
 
+
+        System.out.println("-------------------------- Test per Biglietti validati per Mezzo -------------------------------");
+
+        System.out.println("Biglietti validati su m1: " + mezzoDAO.bigliettiValidatiSuMezzo(m1FromDB.getMezzoId()));
+        System.out.println("Biglietti validati su m2: " + mezzoDAO.bigliettiValidatiSuMezzo(m2FromDB.getMezzoId()));
+
+
+        // MANUTENZIONE per DAO MEZZO
     }
 
 

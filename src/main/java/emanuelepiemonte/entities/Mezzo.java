@@ -25,8 +25,7 @@ public class Mezzo {
     @Column(name = "targa", length = 20)
     private String targa;
 
-    @OneToMany
-    @JoinColumn(name = "mezzo_id")
+    @OneToMany(mappedBy = "mezzo")
     private List<Manutenzione> manutenzioni = new ArrayList<>();
 
     @OneToMany

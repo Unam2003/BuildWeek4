@@ -22,6 +22,9 @@ public class Manutenzione {
     @Column(name = "data_fine")
     private LocalDate dataFine;
 
+    @ManyToOne
+    @JoinColumn(name = "mezzo_id", nullable = false)
+    private Mezzo mezzo;
 
     //COSTRUTTORI
 
@@ -38,6 +41,18 @@ public class Manutenzione {
         this.dataInizio = LocalDate.now();
     }
 
+
+    public Manutenzione(String descrizione, LocalDate dataInizio, Mezzo mezzo) {
+        this.descrizione = descrizione;
+        this.dataInizio = dataInizio;
+        this.mezzo = mezzo;
+    }
+
+    public Manutenzione(String descrizione, Mezzo mezzo) {
+        this.descrizione = descrizione;
+        this.dataInizio = LocalDate.now();
+        this.mezzo = mezzo;
+    }
     //GETTER E SETTER
 
     public Long getManutenzioneId() {
@@ -66,5 +81,24 @@ public class Manutenzione {
 
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
+    }
+
+    public Mezzo getMezzo() {
+        return mezzo;
+    }
+
+    public void setMezzo(Mezzo mezzo) {
+        this.mezzo = mezzo;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Manutenzione{" +
+                "manutenzioneId=" + manutenzioneId +
+                ", descrizione='" + descrizione + '\'' +
+                ", dataInizio=" + dataInizio +
+                ", dataFine=" + dataFine +
+                '}';
     }
 }
