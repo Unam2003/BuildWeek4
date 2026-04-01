@@ -23,6 +23,7 @@ public class Utente {
     @Column(name = "user_type")
     private UserType userType;
     private String pw;
+    private String username;
 
     public Utente() {
     }
@@ -34,6 +35,7 @@ public class Utente {
         this.data_di_nascita = data_di_nascita;
         this.pw = pw;
         this.userType = userType;
+        this.username = (nome + cognome).toLowerCase();
     }
 
     public UUID getUtenteId() {
@@ -83,11 +85,11 @@ public class Utente {
     @Override
     public String toString() {
         return "Utente{" +
-                "utenteId=" + utenteId +
+                "cognome='" + cognome + '\'' +
                 ", nome='" + nome + '\'' +
-                ", cognome='" + cognome + '\'' +
-                ", sesso=" + sesso +
-                ", data_di_nascita=" + data_di_nascita +
+                ", userType=" + userType + '\'' +
+                ", data_di_nascita=" + data_di_nascita + '\'' +
+                ", sesso=" + sesso + '\'' +
                 '}';
     }
 }

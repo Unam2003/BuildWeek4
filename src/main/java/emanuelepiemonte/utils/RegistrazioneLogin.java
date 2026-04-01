@@ -5,6 +5,7 @@ import emanuelepiemonte.entities.Utente;
 import emanuelepiemonte.enums.Sesso;
 import emanuelepiemonte.enums.UserType;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -14,14 +15,15 @@ import java.util.Scanner;
 public class RegistrazioneLogin {
     Scanner scanner = new Scanner(System.in);
 
+    //    Metodo per registrare un utente tramite scanner
     public void registrazione(EntityManager em) {
-        Utente newUtente = new Utente();
         String nome;
         String cognome;
         Sesso sesso;
         LocalDate dataDiNascita;
         UserType userType;
         String pw;
+        System.out.println("--------------REGISTRATI--------------");
         System.out.println("Inserisci il nome");
         while (true) {
             nome = scanner.nextLine();
@@ -104,4 +106,27 @@ public class RegistrazioneLogin {
         UtenteDAO ud = new UtenteDAO(em);
         ud.save(nuovoUtente);
     }
+
+    //    Metodo per il login con scanner
+    public Utente login(EntityManager em) {
+        System.out.println("--------------LOGIN--------------");
+        while (true) {
+            System.out.println("Inserisci l'username(nome + cognome in minuscolo es.'mariorossi')");
+            String loginUsername = scanner.nextLine();
+            System.out.println("Inserisci la Password");
+            String loginPw = scanner.nextLine();
+            try {
+                Utente searched = em.createQuery("SELECT u FROM Utente u WHERE u.username = :username AND u.pw = :pw", Utente.class)
+                        .setParameter("username", loginUsername)
+                        .setParameter("pw", loginPw)
+                        .getSingleResult();
+                System.out.println("Login effettuato con successo!");
+                return searched;
+            } catch (NoResultException e) {
+                System.out.println("!---Username o Password errati---!");
+            }
+        }
+    }
 }
+
+
