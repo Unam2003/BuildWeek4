@@ -71,11 +71,11 @@ public class Biglietto {
     }
 
     public Mezzo getMezzoId() {
-        return mezzoId;
+        return mezzo;
     }
 
     public void setMezzoId(Mezzo mezzoId) {
-        this.mezzoId = mezzoId;
+        this.mezzo = mezzoId;
     }
 
     // aggiungo mezzo se no non vedo update
@@ -98,6 +98,6 @@ public class Biglietto {
                 ", rivenditore=" + rivenditore +
                 ", data di emissione=" + dataEmissione +
                 ", data di annullamento=" + dataAnnullamento +
-                ", Id=" + mezzoId.getTarga();
+                ", Id=" + mezzo.getTarga();
     }
 }

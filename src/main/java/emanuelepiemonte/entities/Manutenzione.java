@@ -68,13 +68,6 @@ public class Manutenzione {
         this.descrizione = descrizione;
     }
 
-    public Mezzo getMezzo() {
-        return mezzo;
-    }
-
-    public void setMezzo(Mezzo mezzo) {
-        this.mezzo = mezzo;
-    }
 
     public LocalDate getDataInizio() {
         return dataInizio;
@@ -108,16 +101,5 @@ public class Manutenzione {
 
     public void setMezzo(Mezzo mezzo) {
         this.mezzo = mezzo;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Manutenzione{" +
-                "manutenzioneId=" + manutenzioneId +
-                ", descrizione='" + descrizione + '\'' +
-                ", dataInizio=" + dataInizio +
-                ", dataFine=" + dataFine +
-                '}';
     }
 }

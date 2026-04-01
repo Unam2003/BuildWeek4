@@ -20,6 +20,10 @@ public class Mezzo {
     private int capienza;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "stato_mezzo")
+    private StatoMezzo stato;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_di_mezzo")
     private TipoDiMezzo tipoDiMezzo;
 

@@ -52,14 +52,5 @@ public class BigliettoDAO {
         System.out.println("Biglietto " + found.getBigliettoId() + " eliminato con successo");
     }
 
-// AGGIUNGO UPDATE
-
-    public void update(Biglietto biglietto) {
-        EntityTransaction t = em.getTransaction();
-        t.begin();
-        em.merge(biglietto);
-        t.commit();
-        System.out.println("Biglietto " + biglietto.getBigliettoId() + " aggiornato con successo");
-    }
 
 }
