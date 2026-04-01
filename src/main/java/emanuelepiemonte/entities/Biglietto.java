@@ -20,9 +20,6 @@ public class Biglietto {
     @Column(name = "data_emissione")
     private LocalDate dataEmissione;
 
-    @Column(name = "is_vidimato")
-    private boolean vidimato;
-
     @Column(name = "data_annullamento")
     private LocalDate dataAnnullamento;
 
@@ -37,22 +34,12 @@ public class Biglietto {
         this.rivenditore = rivenditore;
         this.dataEmissione = dataEmissione;
         this.dataAnnullamento = dataAnnullamento;
-        this.vidimato = false;
     }
 
     public Biglietto(PuntoDiEmissione rivenditore, LocalDate dataAnnullamento) {
         this.rivenditore = rivenditore;
         this.dataEmissione = LocalDate.now();
         this.dataAnnullamento = dataAnnullamento;
-        this.vidimato = false;
-    }
-
-    public boolean isVidimato() {
-        return vidimato;
-    }
-
-    public void setVidimato(boolean vidimato) {
-        this.vidimato = vidimato;
     }
 
     public Mezzo getMezzo() {
@@ -79,13 +66,24 @@ public class Biglietto {
         return dataAnnullamento;
     }
 
+    public void setDataAnnullamento(LocalDate dataAnnullamento) {
+        this.dataAnnullamento = dataAnnullamento;
+    }
+
+    public void setDataEmissione(LocalDate dataEmissione) {
+        this.dataEmissione = dataEmissione;
+    }
+
+    public void setRivenditore(PuntoDiEmissione rivenditore) {
+        this.rivenditore = rivenditore;
+    }
+
     @Override
     public String toString() {
         return "Biglietto{" +
                 "bigliettoId=" + bigliettoId +
                 ", rivenditore=" + rivenditore +
                 ", dataEmissione=" + dataEmissione +
-                ", vidimato=" + vidimato +
                 ", dataAnnullamento=" + dataAnnullamento +
                 '}';
     }
