@@ -287,6 +287,61 @@ public class Application {
 
 
         // MANUTENZIONE per DAO MEZZO
+
+        ManutenzioneDAO manutenzioneDAO = new ManutenzioneDAO(em);
+
+        Manutenzione man1 = new Manutenzione("Cambio gomme", LocalDate.of(2025, 3, 20), m1FromDB);
+        Manutenzione man2 = new Manutenzione("Revisione motore", LocalDate.of(2026, 3, 1), m2FromDB);
+        Manutenzione man3 = new Manutenzione("Controllo freni", LocalDate.of(2025, 2, 15), m1FromDB);
+
+//        manutenzioneDAO.save(man1);
+//        manutenzioneDAO.save(man2);
+//        manutenzioneDAO.save(man3);
+
+        Manutenzione man1FromDB = manutenzioneDAO.getById(1L);
+        Manutenzione man2FromDB = manutenzioneDAO.getById(2L);
+        Manutenzione man3FromDB = manutenzioneDAO.getById(3L);
+
+        System.out.println(man1FromDB);
+        System.out.println(man2FromDB);
+        System.out.println(man3FromDB);
+
+        System.out.println("-------------------------- TEST ChiudoManutenzioni E AGGIORNO -------------------------------");
+
+        man1FromDB.setDataFine(LocalDate.of(2025, 2, 25));
+        man3FromDB.setDataFine(LocalDate.of(2025, 2, 28));
+
+//        manutenzioneDAO.update(man1FromDB); /////// SUPER OCCHIO CHE MI SCORDO SEMPRE
+//        manutenzioneDAO.update(man3FromDB);
+
+        System.out.println(man1FromDB);
+        System.out.println(man3FromDB);
+
+        System.out.println("-------------------------- TEST TutteManutenzioni -------------------------------");
+        manutenzioneDAO.getAll().forEach(System.out::println);
+
+        System.out.println("-------------------------- TEST ManutenzioniInCorso -------------------------------");
+        manutenzioneDAO.getManutenzioniInCorso().forEach(System.out::println);
+
+
+//     TORNO A MEZZI
+
+        System.out.println("-------------------------- TEST MezziInManutenzione -------------------------------");
+        mezzoDAO.getMezziInManutenzione().forEach(System.out::println);
+
+        System.out.println("-------------------------- TEST getManutenzioniPerPeriodo -------------------------------");
+        mezzoDAO.getManutenzioniPerPeriodo(
+                m1FromDB.getMezzoId(),
+                LocalDate.of(2025, 2, 1),
+                LocalDate.of(2025, 4, 30)   // Excp Invalid date APRIL 31 OPS
+        ).forEach(System.out::println);
+
+
+        // PERCORRENZATRATTA
+
+        PercorrenzaTrattaDAO ptDAO = new PercorrenzaTrattaDAO(em);
+
+
     }
 
 

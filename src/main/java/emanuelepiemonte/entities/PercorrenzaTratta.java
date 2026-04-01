@@ -55,4 +55,26 @@ public class PercorrenzaTratta {
     public void setTempoEffettivoTratta(int tempoEffettivoTratta) {
         this.tempoEffettivoTratta = tempoEffettivoTratta;
     }
+
+    public Mezzo getMezzo() {
+        return mezzo;
+    }
+
+    public void setTratta(Tratta tratta) {
+        this.tratta = tratta;
+    }
+
+    public void setMezzo(Mezzo mezzo) {
+        this.mezzo = mezzo;
+    }
+
+    @Override
+    public String toString() {
+        return "PercorrenzaTratta{" +
+                "percorsoId=" + percorsoId +
+                ", tempoEffettivoTratta=" + tempoEffettivoTratta +
+                ", tratta=" + tratta +
+                ", mezzo=" + mezzo +
+                '}';
+    }
 }
