@@ -24,6 +24,7 @@ public class RegistrazioneLogin {
         LocalDate dataDiNascita;
         UserType userType;
         String pw;
+        System.out.println("--------------REGISTRATI--------------");
         System.out.println("Inserisci il nome");
         while (true) {
             nome = scanner.nextLine();
