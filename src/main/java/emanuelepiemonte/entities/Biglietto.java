@@ -43,7 +43,9 @@ public class Biglietto {
     }
 
 
-    // Al momento manca modo di abbinare biglietto al mezzo
+    // Al momento manca modo di abbinare biglietto al mezzo setter necessario aggiunto ... RIFLETTUTO: Questo per che il modo che abbiamo al momento per validare il biglietto e
+    // associarlo dopo al mezzo .. quindi il biglietto non puo'nascere con il mezzo nel costruttore.. ma parte da null
+    // Pero'a sto punto aggiungo un UPDATE nel biglietto DAO che non c e'
 
     public PuntoDiEmissione getRivenditore() {
         return rivenditore;
@@ -69,6 +71,8 @@ public class Biglietto {
         this.mezzoId = mezzoId;
     }
 
+    // aggiungo mezzo se no non vedo update
+
     @Override
     public String toString() {
         return "Biglietto{" +
@@ -76,6 +80,7 @@ public class Biglietto {
                 ", rivenditore=" + rivenditore +
                 ", dataEmissione=" + dataEmissione +
                 ", dataAnnullamento=" + dataAnnullamento +
+                ", mezzoId=" + mezzoId.getTarga() +
                 '}';
     }
 }

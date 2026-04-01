@@ -260,11 +260,17 @@ public class Application {
         Biglietto b5FromDB = bigliettiDAO.findById(UUID.fromString("e9e01193-0743-4378-ad1c-6d496e26cf35"));
 
         System.out.println("-------------------------- Piu setta il bus di validazione -------------------------------");
-        b1FromDB.setMezzoId(m1FromDB);
-        b2FromDB.setMezzoId(m1FromDB);
-        b3FromDB.setMezzoId(m1FromDB);
-        b4FromDB.setMezzoId(m2FromDB);
-        b5FromDB.setMezzoId(m2FromDB);
+//        b1FromDB.setMezzoId(m1FromDB);
+//        b2FromDB.setMezzoId(m1FromDB);
+//        b3FromDB.setMezzoId(m1FromDB);
+//        b4FromDB.setMezzoId(m2FromDB);
+//        b5FromDB.setMezzoId(m2FromDB);
+//
+//        bigliettiDAO.update(b1FromDB);
+//        bigliettiDAO.update(b2FromDB);
+//        bigliettiDAO.update(b3FromDB);
+//        bigliettiDAO.update(b4FromDB);
+//        bigliettiDAO.update(b5FromDB);
 
 
         System.out.println(b1FromDB);
