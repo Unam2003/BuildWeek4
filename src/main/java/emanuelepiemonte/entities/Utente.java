@@ -61,11 +61,11 @@ public class Utente {
     @Override
     public String toString() {
         return "Utente{" +
-                "utenteId=" + utenteId +
+                "cognome='" + cognome + '\'' +
                 ", nome='" + nome + '\'' +
-                ", cognome='" + cognome + '\'' +
-                ", sesso=" + sesso +
-                ", data_di_nascita=" + data_di_nascita +
+                ", userType=" + userType + '\'' +
+                ", data_di_nascita=" + data_di_nascita + '\'' +
+                ", sesso=" + sesso + '\'' +
                 '}';
     }
 }

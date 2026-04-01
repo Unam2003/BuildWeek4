@@ -17,7 +17,6 @@ public class RegistrazioneLogin {
 
     //    Metodo per registrare un utente tramite scanner
     public void registrazione(EntityManager em) {
-        Utente newUtente = new Utente();
         String nome;
         String cognome;
         Sesso sesso;

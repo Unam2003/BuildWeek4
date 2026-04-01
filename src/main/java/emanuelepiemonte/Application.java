@@ -36,8 +36,9 @@ public class Application {
 //        utenteDao.save(u3);
 
         RegistrazioneLogin rl = new RegistrazioneLogin();
-//        rl.registrazione(em);
+        rl.registrazione(em);
         Utente loggedIn = rl.login(em);
+        System.out.println(loggedIn.toString());
 
         // UTENTE
 
