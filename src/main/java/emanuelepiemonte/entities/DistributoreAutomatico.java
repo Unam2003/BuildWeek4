@@ -18,5 +18,13 @@ public class DistributoreAutomatico extends PuntoDiEmissione {
         this.inServizio = inServizio;
     }
 
+    //GETTER E SETTER
 
+    public boolean isInServizio() {
+        return inServizio;
+    }
+
+    public void setInServizio(boolean inServizio) {
+        this.inServizio = inServizio;
+    }
 }

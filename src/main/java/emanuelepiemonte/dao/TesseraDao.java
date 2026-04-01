@@ -36,6 +36,17 @@ public class TesseraDao {
         return found;
     }
 
+    public void update(Tessera tessera) {
+        EntityTransaction transaction = em.getTransaction();
+        try {
+            transaction.begin();
+            em.merge(tessera);
+            transaction.commit();
+        } catch (Exception e) {
+            System.out.println("Errore nell'update: " + e.getMessage());
+        }
+    }
+
     // QUERY PER FAR COSE
 
     public Tessera trovaTesseraDaUtente(UUID utenteId) {

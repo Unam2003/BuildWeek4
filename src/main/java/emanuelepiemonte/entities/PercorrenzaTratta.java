@@ -28,9 +28,10 @@ public class PercorrenzaTratta {
     public PercorrenzaTratta() {
     }
 
-    public PercorrenzaTratta(int tempoEffettivoTratta, Tratta tratta) {
+    public PercorrenzaTratta(int tempoEffettivoTratta, Tratta tratta, Mezzo mezzo) {
         this.tempoEffettivoTratta = tempoEffettivoTratta;
         this.tratta = tratta;
+        this.mezzo = mezzo;
     }
 
     //GETTER E SETTER
@@ -49,5 +50,17 @@ public class PercorrenzaTratta {
 
     public void setTempoEffettivoTratta(int tempoEffettivoTratta) {
         this.tempoEffettivoTratta = tempoEffettivoTratta;
+    }
+
+    public Mezzo getMezzo() {
+        return mezzo;
+    }
+
+    public void setMezzo(Mezzo mezzo) {
+        this.mezzo = mezzo;
+    }
+
+    public void setTratta(Tratta tratta) {
+        this.tratta = tratta;
     }
 }
