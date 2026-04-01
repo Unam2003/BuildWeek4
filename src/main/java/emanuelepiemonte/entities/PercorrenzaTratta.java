@@ -28,12 +28,16 @@ public class PercorrenzaTratta {
     public PercorrenzaTratta() {
     }
 
+//    public PercorrenzaTratta(int tempoEffettivoTratta, Tratta tratta) {
+//        this.tempoEffettivoTratta = tempoEffettivoTratta;
+//        this.tratta = tratta;
+//    }                     cotruttore sbagliato perche nullable false in mezzo .. se non lo metti esplode
+
     public PercorrenzaTratta(int tempoEffettivoTratta, Tratta tratta, Mezzo mezzo) {
         this.tempoEffettivoTratta = tempoEffettivoTratta;
         this.tratta = tratta;
         this.mezzo = mezzo;
     }
-
     //GETTER E SETTER
 
     public Long getPercorsoId() {
@@ -56,11 +60,21 @@ public class PercorrenzaTratta {
         return mezzo;
     }
 
+    public void setTratta(Tratta tratta) {
+        this.tratta = tratta;
+    }
+
     public void setMezzo(Mezzo mezzo) {
         this.mezzo = mezzo;
     }
 
-    public void setTratta(Tratta tratta) {
-        this.tratta = tratta;
+    @Override
+    public String toString() {
+        return "PercorrenzaTratta{" +
+                "percorsoId=" + percorsoId +
+                ", tempoEffettivoTratta=" + tempoEffettivoTratta +
+                ", trattaId=" + (tratta != null ? tratta.getTrattaId() : null) +
+                ", mezzoId=" + (mezzo != null ? mezzo.getMezzoId() : null) +
+                '}';
     }
 }

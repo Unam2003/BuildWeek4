@@ -63,6 +63,11 @@ public class PercorrenzaTrattaDAO {
         }
     }
 
+    // per avere tutta la tabella a lista oggetti
+    public List<PercorrenzaTratta> getAll() {
+        return em.createQuery("SELECT p FROM PercorrenzaTratta p", PercorrenzaTratta.class).getResultList();
+    }
+
     //QUERY èIU' SPECIFICHE
 
     //Calcola tempo medio per tratta (da tutti i mezzi) (SOLO DALL'ADMIN!!)

@@ -75,10 +75,10 @@ public class MezzoDAO {
     //QUERY PIU' SPECIFICHE
 
     //Conta quanti biglietti sono stati validati su in singolo mezzo
-    public int bigliettiValidatiSuMezzo(int mezzoId) {
-        TypedQuery<Integer> query = em.createQuery(
-                "SELECT COUNT(b) FROM Biglietto b WHERE b.mezzo.mezzoId = :id",
-                Integer.class);
+    public Long bigliettiValidatiSuMezzo(Long mezzoId) { // uniformo con il long del mezzo
+        TypedQuery<Long> query = em.createQuery(
+                "SELECT COUNT(b) FROM Biglietto b WHERE b.mezzoId.mezzoId = :id", // si chiama cosi in entity Biglietto
+                Long.class);
 
         query.setParameter("id", mezzoId);
         return query.getSingleResult();

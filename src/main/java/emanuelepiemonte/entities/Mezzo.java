@@ -20,18 +20,13 @@ public class Mezzo {
     private int capienza;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "stato_mezzo")
-    private StatoMezzo stato;
-
-    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_di_mezzo")
     private TipoDiMezzo tipoDiMezzo;
 
     @Column(name = "targa", length = 20)
     private String targa;
 
-    @OneToMany
-    @JoinColumn(name = "mezzo_id")
+    @OneToMany(mappedBy = "mezzo")
     private List<Manutenzione> manutenzioni = new ArrayList<>();
 
     @OneToMany
@@ -95,5 +90,16 @@ public class Mezzo {
 
     public List<PercorrenzaTratta> getPercorrenze() {
         return percorrenze;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Mezzo{" +
+                "mezzoId=" + mezzoId +
+                ", capienza=" + capienza +
+                ", tipoDiMezzo=" + tipoDiMezzo +
+                ", targa='" + targa + ' ' +
+                '}';
     }
 }

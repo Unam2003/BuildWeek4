@@ -42,6 +42,18 @@ public class Manutenzione {
         this.dataInizio = LocalDate.now();
     }
 
+
+    public Manutenzione(String descrizione, LocalDate dataInizio, Mezzo mezzo) {
+        this.descrizione = descrizione;
+        this.dataInizio = dataInizio;
+        this.mezzo = mezzo;
+    }
+
+    public Manutenzione(String descrizione, Mezzo mezzo) {
+        this.descrizione = descrizione;
+        this.dataInizio = LocalDate.now();
+        this.mezzo = mezzo;
+    }
     //GETTER E SETTER
 
     public Long getManutenzioneId() {
@@ -88,5 +100,24 @@ public class Manutenzione {
                 ", dataInizio=" + dataInizio +
                 ", dataFine=" + dataFine +
                 ", mezzo=" + mezzo;
+    }
+
+    public Mezzo getMezzo() {
+        return mezzo;
+    }
+
+    public void setMezzo(Mezzo mezzo) {
+        this.mezzo = mezzo;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Manutenzione{" +
+                "manutenzioneId=" + manutenzioneId +
+                ", descrizione='" + descrizione + '\'' +
+                ", dataInizio=" + dataInizio +
+                ", dataFine=" + dataFine +
+                '}';
     }
 }

@@ -77,7 +77,6 @@ public class Tratta {
                 "zonaPartenza= " + zonaPartenza +
                 ", capolinea=" + capolinea +
                 ", tempoPrevistoTratta=" + tempoPrevistoTratta +
-                ", percorrenze=" + percorrenze +
                 ", Id=" + trattaId;
 
     }
