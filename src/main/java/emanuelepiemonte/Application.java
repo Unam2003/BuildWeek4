@@ -372,17 +372,17 @@ public class Application {
         System.out.println("-------------------------- Prendo tutte percorrenze stampo lista -------------------------------");
         ptDAO.getAll().forEach(System.out::println);
 
-        System.out.println("-------------------------- TEST TempoMedioPerTratta -------------------------------");
+        System.out.println("-------------------------- TEST TempoMedioPerTratta su tutti i mezzi -------------------------------");
         System.out.println(ptDAO.getTempoMedioPerTratta(tr1FromDB.getTrattaId()));
 
 
-        System.out.println("-------------------------- TEST getTempoMedioPerTrattaEMezzo -------------------------------");
+        System.out.println("-------------------------- TEST getTempoMedioPerTrattasuMezzo -------------------------------");
         System.out.println(ptDAO.getTempoMedioPerTrattaEMezzo(
                 tr1FromDB.getTrattaId(),
                 m1FromDB.getMezzoId()
         ));
 
-        System.out.println("-------------------------- TEST TratteFatteDalMezzo -------------------------------");
+        System.out.println("-------------------------- TEST TutteTratteFatteDalMezzo -------------------------------");
         ptDAO.getByMezzo(m1FromDB.getMezzoId()).forEach(System.out::println);
 
 
