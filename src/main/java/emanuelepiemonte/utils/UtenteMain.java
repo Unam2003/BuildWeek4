@@ -42,20 +42,13 @@ public class UtenteMain {
                     System.out.println(profile.toString());
                 }
                 case "2" -> {
-                    try {
-                        UUID idUtente = user.getUtenteId();
-                        Utente utenteTrovato = ud.trovaUtentiPerId(idUtente);
-
-                        if (utenteTrovato != null) {
-                            Tessera nuovaTessera = new Tessera(utenteTrovato);
-                            td.save(nuovaTessera);
-                            System.out.println("Tessera emessa con successo!");
-                        } else {
-                            System.out.println("Nessun utente trovato con questo UUID.");
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Errore durante l'emissione della tessera");
-                    }
+//                    try {
+                    Tessera nuovaTessera = new Tessera(user);
+                    td.save(nuovaTessera);
+                    System.out.println("Tessera emessa con successo!");
+//                    } catch (Exception e) {
+//                        System.out.println("Errore durante l'emissione della tessera");
+//                    }
                 }
                 case "3" -> {
                     Tessera tessera = td.trovaTesseraDaUtente(user.getUtenteId());
@@ -99,6 +92,11 @@ public class UtenteMain {
                 }
                 case "6" -> {
                     Tessera tessera = td.trovaTesseraDaUtente(user.getUtenteId());
+                    if (tessera == null) {
+                        System.out.println("Nessuna tessera registrata per l'utente " + user.getNome() + " " + user.getCognome());
+                        System.out.println("Richiedere una tessera per continuare");
+                        continue;
+                    }
 //                    CONTROLLO PER ABBONAMENTI ATTIVI
                     Abbonamento abbAttivo = ad.trovaAbbAttivoPerTessera(tessera.getTesseraId());
                     if (!(abbAttivo == null)) {

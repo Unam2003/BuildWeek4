@@ -24,7 +24,7 @@ public class TesseraDao {
         // Exception 1 --> Tessera esistente? (controllo "nascosto")
         try {
             Tessera esistente = trovaTesseraDaUtente(newTessera.getUtente().getUtenteId());
-            if (esistente.getDataScadenza().isAfter(LocalDate.now())) {
+            if (esistente != null && esistente.getDataScadenza().isAfter(LocalDate.now())) {
                 throw new TesseraGiaAssociataException(newTessera.getUtente().getUtenteId());
             }
 
@@ -41,7 +41,7 @@ public class TesseraDao {
         t.begin();
         em.persist(newTessera);
         t.commit();
-        System.out.println("La tessera " + newTessera.getTesseraId() + " è stata salvata correttamente");
+        System.out.println("Tessera a nome di " + newTessera.getUtente().getNome() + " " + newTessera.getUtente().getCognome() + " salvata correttamente");
     }
 
     public Tessera findById(UUID tesseraId) {
