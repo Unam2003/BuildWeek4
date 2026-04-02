@@ -430,12 +430,27 @@ public class Application {
 
 
 //        System.out.println("-------------------------- TEST Creazione Mezzo e cambiare Stato IN_MANUTEZIONE -------------------------------");
+//        ManutenzioneDAO manutenzioneDAO = new ManutenzioneDAO(em);
 //        Mezzo bus = new Mezzo(TipoDiMezzo.AUTOBUS, "SDWER23");
 //        mezzoDAO.save(bus);
+//
+//        manutenzioneDAO.entraInManutenzione(bus, "Rottura cambio");
+//        em.close();
+//        emf.close();
+//
+//        System.out.println("-------------------------- TEST Creazione Biglietto e aggiornamento vidimazione -------------------------------");
+//        Biglietto nuovoBiglietto = new Biglietto(r1fromDB, null);
+//        bigliettoDAO.save(nuovoBiglietto);
+//
+//        Biglietto b = bigliettoDAO.findById(UUID.fromString("74b7ehlt-c85d-2511-96fb-ra37359234gryue"));
+//
+//        b.setVidimato(true);          // ===> quindi nessun setVidimato?
+//        b.setMezzo(bus);  // stesso bus di sopra
+//        b.setDataAnnullamento(LocalDate.now());
+//
+//        System.out.println("Biglietto vidimato con successo sul bus " + bus.getTarga());
 
-//        manutenzioneDao.entraInManutenzione(bus, "Rottura cambio");
-        em.close();
-        emf.close();
+
     }
 
 
