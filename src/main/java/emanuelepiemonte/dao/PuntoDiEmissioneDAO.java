@@ -44,7 +44,7 @@ public class PuntoDiEmissioneDAO {
     }
 
     public List<PuntoDiEmissione> trovaPuntiPerCitta(String citta) {
-        List<PuntoDiEmissione> punti = em.createQuery("SELECT p FROM PuntoDiEmissione p WHERE p.citta = :citta", PuntoDiEmissione.class)
+        List<PuntoDiEmissione> punti = em.createQuery("SELECT p FROM PuntoDiEmissione p WHERE LOWER(p.citta) = LOWER(:citta)", PuntoDiEmissione.class)
                 .setParameter("citta", citta)
                 .getResultList();
         if (punti == null) {

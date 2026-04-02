@@ -3,10 +3,13 @@ package emanuelepiemonte.dao;
 import emanuelepiemonte.entities.Manutenzione;
 import emanuelepiemonte.entities.Mezzo;
 import emanuelepiemonte.enums.StatoMezzo;
+import emanuelepiemonte.exceptions.MezzoGiaInManutenzioneException;
+import emanuelepiemonte.exceptions.MezzoNonInManutenzioneException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class ManutenzioneDAO {
@@ -84,16 +87,50 @@ public class ManutenzioneDAO {
 
     // Creazione manutenzione e cambio stato mezzo (IN MANUTENZIONE)
     public void entraInManutenzione(Mezzo m, String motivo) {
+        if (m.getStato() == StatoMezzo.IN_MANUTENZIONE) {
+            throw new MezzoGiaInManutenzioneException(m.getTarga());
+        }
         EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
+        try {
+            transaction.begin();
 
-        Manutenzione manutenzione = new Manutenzione(motivo);
-        manutenzione.setMezzo(m);
-        m.setStato(StatoMezzo.IN_MANUTENZIONE);
-        em.persist(manutenzione);
-        em.merge(m);
-        transaction.commit();
+            Manutenzione manutenzione = new Manutenzione(motivo);
+            manutenzione.setMezzo(m);
+            m.setStato(StatoMezzo.IN_MANUTENZIONE);
+            em.persist(manutenzione);
+            em.merge(m);
+            transaction.commit();
+            System.out.println("Mezzo " + m.getTarga() + " inviato correttamente in officina");
+        } catch (Exception e) {
+            if (transaction.isActive())
+                transaction.rollback(); // --> se il salvataggio fallisce a metà, torna allo stato precedente (O tutto o niente)
+            throw e;
+        }
     }
 
+    public void terminaManutenzione(Mezzo m) {
+        if (m.getStato() != StatoMezzo.IN_MANUTENZIONE) {
+            throw new MezzoNonInManutenzioneException(m.getTarga());
+        }
+        EntityTransaction transaction = em.getTransaction();
+        try {
+            transaction.begin();
+            m.setStato(StatoMezzo.IN_SERVIZIO);
+            em.merge(m);
+            TypedQuery<Manutenzione> query = em.createQuery(
+                    "SELECT m FROM Manutenzione m WHERE m.mezzo = :mezzo AND m.dataFine IS NULL", Manutenzione.class);
+            query.setParameter("mezzo", m);
 
+            Manutenzione attiva = query.getSingleResult();
+            attiva.setDataFine(LocalDate.now());
+            em.merge(attiva);
+
+            transaction.commit();
+            System.out.println("Manutenzione terminata. Il mezzo " + m.getTarga() + " è di nuovo attivo");
+        } catch (Exception e) {
+            if (transaction.isActive())
+                transaction.rollback(); // --> se il salvataggio fallisce a metà, torna allo stato precedente (O tutto o niente)
+            throw e;
+        }
+    }
 }

@@ -2,6 +2,8 @@ package emanuelepiemonte.dao;
 
 import emanuelepiemonte.entities.Tessera;
 import emanuelepiemonte.exceptions.NotFoundException;
+import emanuelepiemonte.exceptions.TesseraGiaAssociataException;
+import emanuelepiemonte.exceptions.TesseraScadutaException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
@@ -19,6 +21,22 @@ public class TesseraDao {
     }
 
     public void save(Tessera newTessera) {
+        // Exception 1 --> Tessera esistente? (controllo "nascosto")
+        try {
+            Tessera esistente = trovaTesseraDaUtente(newTessera.getUtente().getUtenteId());
+            if (esistente.getDataScadenza().isAfter(LocalDate.now())) {
+                throw new TesseraGiaAssociataException(newTessera.getUtente().getUtenteId());
+            }
+
+        } catch (NotFoundException e) {
+        }
+
+        // Exception 2 --> Tessera scaduta?
+        if (newTessera.getDataScadenza().isBefore(LocalDate.now())) {
+            throw new TesseraScadutaException(newTessera.getTesseraId());
+        }
+
+        // normale esecuzione
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.persist(newTessera);
@@ -58,7 +76,7 @@ public class TesseraDao {
                     .getSingleResult();
 
         } catch (NoResultException e) {
-            throw new NotFoundException("Nessuna tessera trovata per l'utente " + utenteId);
+            return null;
         }
     }
 

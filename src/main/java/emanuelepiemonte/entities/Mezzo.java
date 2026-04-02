@@ -84,6 +84,10 @@ public class Mezzo {
         this.targa = targa;
     }
 
+    public StatoMezzo getStato() {
+        return stato;
+    }
+
     public void setStato(StatoMezzo stato) {
         this.stato = stato;
     }
