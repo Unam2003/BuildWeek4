@@ -96,15 +96,8 @@ public class Biglietto {
         return " BIGLIETTO: " +
                 "Id=" + bigliettoId +
                 ", rivenditore=" + rivenditore +
-<<<<<<< Updated upstream
                 ", data di emissione=" + dataEmissione +
                 ", data di annullamento=" + dataAnnullamento +
                 ", Id=" + mezzo.getTarga();
-=======
-                ", dataEmissione=" + dataEmissione +
-                ", dataAnnullamento=" + dataAnnullamento +
-                ", mezzoId=" + mezzo.getTarga() +
-                '}';
->>>>>>> Stashed changes
     }
 }
