@@ -3,6 +3,7 @@ package emanuelepiemonte.utils;
 import emanuelepiemonte.dao.*;
 import emanuelepiemonte.entities.*;
 import emanuelepiemonte.enums.PeriodicitaAbb;
+import emanuelepiemonte.exceptions.TesseraGiaAssociataException;
 import jakarta.persistence.EntityManager;
 
 import java.time.LocalDate;
@@ -42,13 +43,15 @@ public class UtenteMain {
                     System.out.println(profile.toString());
                 }
                 case "2" -> {
-//                    try {
-                    Tessera nuovaTessera = new Tessera(user);
-                    td.save(nuovaTessera);
-                    System.out.println("Tessera emessa con successo!");
-//                    } catch (Exception e) {
-//                        System.out.println("Errore durante l'emissione della tessera");
-//                    }
+                    try {
+                        Tessera nuovaTessera = new Tessera(user);
+                        td.save(nuovaTessera);
+                        System.out.println("Tessera emessa con successo!");
+                    } catch (TesseraGiaAssociataException e) {
+                        System.out.println(e.getMessage());
+                    } catch (Exception e) {
+                        System.out.println("Errore durante l'emissione della tessera");
+                    }
                 }
                 case "3" -> {
                     Tessera tessera = td.trovaTesseraDaUtente(user.getUtenteId());
