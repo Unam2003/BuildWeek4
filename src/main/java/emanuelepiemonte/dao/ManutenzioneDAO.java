@@ -69,7 +69,6 @@ public class ManutenzioneDAO {
                 transaction.commit();
                 System.out.println("Manutenzione eliminata.");
             } catch (Exception e) {
-                if (transaction.isActive()) transaction.rollback();
                 System.err.println("Errore eliminazione: " + e.getMessage());
             }
         }

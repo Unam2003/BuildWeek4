@@ -77,11 +77,20 @@ public class MezzoDAO {
     //Conta quanti biglietti sono stati validati su in singolo mezzo
     public Long bigliettiValidatiSuMezzo(Long mezzoId) { // uniformo con il long del mezzo
         TypedQuery<Long> query = em.createQuery(
-                "SELECT COUNT(b) FROM Biglietto b WHERE b.mezzoId.mezzoId = :id", // si chiama cosi in entity Biglietto
+                "SELECT COUNT(b) FROM Biglietto b WHERE b.mezzo.mezzoId = :id", // si chiama cosi in entity Biglietto
                 Long.class);
 
         query.setParameter("id", mezzoId);
         return query.getSingleResult();
+    }
+
+    public Long bigliettiValidatiSuMezzoPerPeriodo(Long mezzoId, LocalDate inizio, LocalDate fine) {
+        return em.createQuery(
+                        "SELECT COUNT(b) FROM Biglietto b WHERE b.mezzo.mezzoId = :mezzoId AND b.dataAnnullamento BETWEEN :inizio AND :fine", Long.class)
+                .setParameter("mezzoId", mezzoId)
+                .setParameter("inizio", inizio)
+                .setParameter("fine", fine)
+                .getSingleResult();
     }
 
     //Ritorna TUTTI i mezzi in manutenzione
@@ -107,5 +116,18 @@ public class MezzoDAO {
         query.setParameter("fine", fine);
 
         return query.getResultList();
+    }
+
+    public Mezzo findMezzoByManutenzioneId(Long manId) {
+        try {
+            return em.createQuery(
+                            "SELECT m FROM Mezzo m JOIN m.manutenzioni man WHERE man.id = :id",
+                            Mezzo.class)
+                    .setParameter("id", manId)
+                    .getSingleResult();
+        } catch (Exception e) {
+            System.out.println("Errore: " + e.getMessage());
+            return null;
+        }
     }
 }

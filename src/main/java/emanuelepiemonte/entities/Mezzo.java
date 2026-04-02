@@ -30,14 +30,14 @@ public class Mezzo {
     @Column(name = "targa", length = 20)
     private String targa;
 
-    @OneToMany(mappedBy = "mezzo")
+    @OneToMany(mappedBy = "mezzo", cascade = CascadeType.ALL)
     private List<Manutenzione> manutenzioni = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "mezzo_id")
     private List<PercorrenzaTratta> percorrenze = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "mezzo_id")
     private List<Biglietto> bigliettiValidati = new ArrayList<>();
 
@@ -100,6 +100,9 @@ public class Mezzo {
         return percorrenze;
     }
 
+    public List<Biglietto> getBigliettiValidati() {
+        return bigliettiValidati;
+    }
 
     @Override
     public String toString() {

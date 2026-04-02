@@ -23,7 +23,7 @@ public class Tratta {
     @Column(name = "tempo_previsto_tratta")
     private Integer tempoPrevistoTratta;
 
-    @OneToMany(mappedBy = "tratta")
+    @OneToMany(mappedBy = "tratta", cascade = CascadeType.ALL)
     private List<PercorrenzaTratta> percorrenze = new ArrayList<>();
 
     //COSTRUTTORI
