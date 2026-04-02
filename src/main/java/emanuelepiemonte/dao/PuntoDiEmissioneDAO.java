@@ -22,7 +22,7 @@ public class PuntoDiEmissioneDAO {
         transaction.begin();
         em.persist(newPuntoDiEmissione);
         transaction.commit();
-        System.out.println("L'emissione " + newPuntoDiEmissione.getEmissioneId() + " è stato salvato correttamente!");
+        System.out.println("Il rivenditore " + newPuntoDiEmissione.toString() + " è stato salvato correttamente!");
     }
 
     public void update(PuntoDiEmissione newPuntoDiEmissione) {
@@ -30,7 +30,7 @@ public class PuntoDiEmissioneDAO {
         transaction.begin();
         em.merge(newPuntoDiEmissione);
         transaction.commit();
-        System.out.println("L'emissione " + newPuntoDiEmissione.getEmissioneId() + " è stato aggiornato correttamente!");
+        System.out.println("Il rivenditore " + newPuntoDiEmissione.toString() + " è stato aggiornato correttamente!");
     }
 
     public PuntoDiEmissione trovaPuntoById(UUID emissioneId) {
