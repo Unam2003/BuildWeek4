@@ -1,6 +1,8 @@
 package emanuelepiemonte.dao;
 
 import emanuelepiemonte.entities.Abbonamento;
+import emanuelepiemonte.exceptions.AbbonamentoNonValidoException;
+import emanuelepiemonte.exceptions.AbbonamentoScadutoException;
 import emanuelepiemonte.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -19,11 +21,19 @@ public class AbbonamentoDAO {
     }
 
     public void salva(Abbonamento newAbbonamento) {
+        if (newAbbonamento.getTessera().getDataScadenza().isBefore(LocalDate.now())) {
+            throw new AbbonamentoNonValidoException("Impossibile fare abbonamento: tessera scaduta");
+        }
         EntityTransaction t = em.getTransaction();
-        t.begin();
-        em.persist(newAbbonamento);
-        t.commit();
-        System.out.println("L'abbonamento " + newAbbonamento.getAbbonamentoId() + " è stato salvato correttamente");
+        try {
+            t.begin();
+            em.persist(newAbbonamento);
+            t.commit();
+            System.out.println("L'abbonamento " + newAbbonamento.getAbbonamentoId() + " è stato salvato correttamente");
+        } catch (Exception e) {
+            if (t.isActive()) t.rollback();
+            throw e;
+        }
     }
 
     public Abbonamento trovaDaId(UUID abbonamentoId) {
@@ -85,6 +95,21 @@ public class AbbonamentoDAO {
                 .setParameter("oggi", LocalDate.now())
                 .setParameter("limite", limite)
                 .getResultList();
+    }
+
+    public boolean verificaValidita(UUID abbonamentoId) {
+        Abbonamento abb = trovaDaId(abbonamentoId);
+
+        if (abb.getTessera().getDataScadenza().isBefore(LocalDate.now())) {
+            throw new AbbonamentoNonValidoException("La tessera " + abb.getTessera().getTesseraId() + " è scaduta!");
+        }
+
+        if (abb.getDataScadenza().isBefore(LocalDate.now())) {
+            throw new AbbonamentoScadutoException(abb.getAbbonamentoId());
+        }
+
+        System.out.println("Abbonamento ID " + abbonamentoId + " valido");
+        return true;
     }
 
 }
