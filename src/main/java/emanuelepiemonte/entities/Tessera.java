@@ -18,7 +18,7 @@ public class Tessera {
     private LocalDate dataEmissione;
     @Column(name = "data_scadenza")
     private LocalDate data_scadenza;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "utente_id")
     private Utente utente;
 
