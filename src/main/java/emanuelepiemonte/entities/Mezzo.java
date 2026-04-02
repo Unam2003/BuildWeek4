@@ -100,10 +100,6 @@ public class Mezzo {
         return percorrenze;
     }
 
-    public StatoMezzo getStato() {
-        return stato;
-    }
-
     public List<Biglietto> getBigliettiValidati() {
         return bigliettiValidati;
     }
