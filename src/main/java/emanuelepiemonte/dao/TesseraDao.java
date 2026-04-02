@@ -58,7 +58,7 @@ public class TesseraDao {
                     .getSingleResult();
 
         } catch (NoResultException e) {
-            throw new NotFoundException("Nessuna tessera trovata per l'utente " + utenteId);
+            return null;
         }
     }
 
