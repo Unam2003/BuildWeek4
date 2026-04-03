@@ -42,6 +42,12 @@ public class Biglietto {
         this.dataAnnullamento = dataAnnullamento;
     }
 
+    public Biglietto(PuntoDiEmissione rivenditore) {
+        this.rivenditore = rivenditore;
+        this.dataEmissione = LocalDate.now();
+        this.dataAnnullamento = null;
+    }
+
 
     // Al momento manca modo di abbinare biglietto al mezzo setter necessario aggiunto ... RIFLETTUTO: Questo per che il modo che abbiamo al momento per validare il biglietto e
     // associarlo dopo al mezzo .. quindi il biglietto non puo'nascere con il mezzo nel costruttore.. ma parte da null

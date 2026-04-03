@@ -1,7 +1,5 @@
 package emanuelepiemonte;
 
-//<<<<<<< Updated upstream
-
 import emanuelepiemonte.entities.Utente;
 import emanuelepiemonte.enums.UserType;
 import emanuelepiemonte.utils.AdminMain;
@@ -21,8 +19,6 @@ public class Application {
     public static void main(String[] args) {
         EntityManager em = emf.createEntityManager();
         Scanner scanner = new Scanner(System.in);
-        //region Istanze
-        //endregion
         //UTILS
         RegistrazioneLogin rl = new RegistrazioneLogin();
         UtenteMain um = new UtenteMain();
@@ -61,4 +57,3 @@ public class Application {
         }
     }
 }
-//
