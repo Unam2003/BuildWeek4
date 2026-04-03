@@ -1,5 +1,6 @@
 package emanuelepiemonte;
 
+//<<<<<<< Updated upstream
 
 import emanuelepiemonte.entities.Utente;
 import emanuelepiemonte.enums.UserType;
@@ -11,6 +12,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 import java.util.Scanner;
+
 
 public class Application {
 
@@ -59,3 +61,4 @@ public class Application {
         }
     }
 }
+//

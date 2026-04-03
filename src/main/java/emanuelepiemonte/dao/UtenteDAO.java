@@ -19,7 +19,7 @@ public class UtenteDAO {
         transaction.begin();
         em.persist(newUtente);
         transaction.commit();
-        System.out.println("L'utente " + newUtente.getUtenteId() + " è stato salvato correttamente");
+        System.out.println("Utente creato con successo");
     }
 
     public void update(Utente newUtente) {

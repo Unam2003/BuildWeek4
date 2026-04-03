@@ -22,7 +22,6 @@ public class BigliettoDAO {
         t.begin();
         em.persist(newBiglietto);
         t.commit();
-        System.out.println("Biglietto " + newBiglietto.getBigliettoId() + " erogato con successo");
     }
 
     //UPDATE

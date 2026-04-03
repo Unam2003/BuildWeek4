@@ -488,9 +488,18 @@ public class AdminMain {
             System.out.println("0. Torna al menu principale");
             System.out.print("Scelta: ");
 
-            int scelta = scanner.nextInt();
-            scanner.nextLine();
+            int scelta;
+            try {
+                scelta = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Devi inserire un numero");
+                continue;
+            }
 
+            if (scelta < 0 || scelta > 3) {
+                System.out.println("Hai scelto un numero non valido");
+                continue;
+            }
             switch (scelta) {
                 case 1:
                     // EMISSIONE BIGLIETTO
@@ -499,17 +508,23 @@ public class AdminMain {
                         UUID idPuntoEmissione = UUID.fromString(scanner.nextLine());
                         PuntoDiEmissione puntoEmissione = puntoDiEmissioneDAO.trovaPuntoById(idPuntoEmissione);
 
-                        if (puntoEmissione != null) {
-                            if (puntoEmissione instanceof DistributoreAutomatico && !((DistributoreAutomatico) puntoEmissione).isInServizio()) {
-                                System.out.println("Errore: Il distributore è FUORI SERVIZIO.");
-                            } else {
-                                Biglietto nuovoBiglietto = new Biglietto(puntoEmissione, null);
-                                bigliettoDAO.save(nuovoBiglietto);
-                                System.out.println("Biglietto emesso con successo! ID: " + nuovoBiglietto.getBigliettoId());
-                            }
-                        } else {
+                        if (puntoEmissione == null) {
                             System.out.println("Punto di emissione non trovato.");
+                            break;
                         }
+
+
+                        if (puntoEmissione instanceof DistributoreAutomatico && !((DistributoreAutomatico) puntoEmissione).isInServizio()) {
+                            System.out.println("Errore: Il distributore è FUORI SERVIZIO.");
+                        } else {
+                            Biglietto nuovoBiglietto = new Biglietto(puntoEmissione, null);
+                            bigliettoDAO.save(nuovoBiglietto);
+                            System.out.println("Biglietto emesso con successo! ID: " + nuovoBiglietto.getBigliettoId());
+                        }
+
+
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("UUID non valido.");
                     } catch (Exception e) {
                         System.out.println("Errore, inserimento non valido: " + e.getMessage());
                     }
