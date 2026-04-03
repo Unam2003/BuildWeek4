@@ -2,14 +2,13 @@ package emanuelepiemonte.utils;
 
 import emanuelepiemonte.dao.*;
 import emanuelepiemonte.entities.*;
-import emanuelepiemonte.enums.PeriodicitaAbb;
-import emanuelepiemonte.enums.Sesso;
-import emanuelepiemonte.enums.TipoDiMezzo;
-import emanuelepiemonte.enums.UserType;
+import emanuelepiemonte.enums.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -54,6 +53,7 @@ public class AdminMain {
             System.out.println("3. Gestione Utenti e Tessere");
             System.out.println("4. Gestione Punti di Emissione");
             System.out.println("5. Emissione e Validazione Titoli (Biglietti/Abbonamenti)");
+            System.out.println("6. Statistiche e Report (Conteggi, Percorrenze, Manutenzioni)");
             System.out.println("0. Esci dal sistema");
 
             int scelta = scanner.nextInt();
@@ -74,6 +74,9 @@ public class AdminMain {
                     break;
                 case 5:
                     menuBigliettiAbbonamenti(scanner);
+                    break;
+                case 6:
+                    menuStatisticheReport(scanner);
                     break;
                 case 0:
                     esci = true;
@@ -117,32 +120,61 @@ public class AdminMain {
                     mezzoDAO.save(nuovoMezzo);
                     break;
                 case 2:
-                    System.out.print("ID del mezzo da mandare in manutenzione: ");
-                    Long idGuasto = scanner.nextLong();
-                    scanner.nextLine();
-                    Mezzo mezzoGuasto = mezzoDAO.getById(idGuasto);
-                    if (mezzoGuasto != null) {
-                        System.out.print("Descrizione del problema: ");
-                        String desc = scanner.nextLine();
-                        Manutenzione nuovaMan = new Manutenzione(desc);
-                        mezzoGuasto.getManutenzioni().add(nuovaMan);
-                        mezzoDAO.update(mezzoGuasto);
-                        System.out.println("Mezzo inviato in officina.");
+                    System.out.print("ID del mezzo da gestire: ");
+                    Long idMezzo = Long.parseLong(scanner.nextLine());
+                    Mezzo mezzo = mezzoDAO.getById(idMezzo);
+
+                    if (mezzo != null) {
+                        Optional<Manutenzione> manutenzioneCorrente = mezzo.getManutenzioni().stream()
+                                .filter(m -> m.getDataFine() == null)
+                                .findFirst();
+
+                        if (manutenzioneCorrente.isPresent()) {
+                            Manutenzione esistente = manutenzioneCorrente.get();
+                            System.out.println("Il mezzo è già in manutenzione (" + esistente.getDescrizione() + ")");
+                            System.out.print("Inserisci i dettagli aggiuntivi da aggiungere alla descrizione: ");
+                            String updateDesc = scanner.nextLine();
+                            esistente.setDescrizione(esistente.getDescrizione() + " | AGGIORNAMENTO: " + updateDesc);
+
+                            mezzoDAO.update(mezzo);
+                            System.out.println("Descrizione della manutenzione aggiornata.");
+                        } else {
+                            System.out.print("Descrizione del nuovo problema: ");
+                            String desc = scanner.nextLine();
+                            Manutenzione nuovaMan = new Manutenzione(desc);
+                            nuovaMan.setMezzo(mezzo);
+                            mezzo.getManutenzioni().add(nuovaMan);
+                            mezzo.setStato(StatoMezzo.IN_MANUTENZIONE);
+                            mezzoDAO.update(mezzo);
+                            System.out.println("Nuova manutenzione registrata. Mezzo inviato in officina.");
+                        }
                     } else {
                         System.out.println("Mezzo non trovato.");
                     }
                     break;
                 case 3:
                     System.out.print("ID della manutenzione da concludere: ");
-                    Long idMan = scanner.nextLong();
-                    scanner.nextLine();
-                    Manutenzione man = manutenzioneDAO.getById(idMan);
-                    if (man != null && man.getDataFine() == null) {
-                        man.setDataFine(LocalDate.now());
-                        manutenzioneDAO.update(man);
-                        System.out.println("Manutenzione conclusa. Mezzo di nuovo operativo.");
+                    Long idM = Long.parseLong(scanner.nextLine());
+                    Mezzo mezzoInManutenzione = mezzoDAO.findMezzoByManutenzioneId(idM);
+
+                    if (mezzoInManutenzione != null) {
+                        Optional<Manutenzione> optionalManutenzione = mezzoInManutenzione.getManutenzioni().stream()
+                                .filter(ma -> ma.getManutenzioneId().equals(idM))
+                                .findFirst();
+                        if (optionalManutenzione.isPresent()) {
+                            Manutenzione man = optionalManutenzione.get();
+                            if (man.getDataFine() == null) {
+                                man.setDataFine(LocalDate.now());
+                                mezzoInManutenzione.setStato(StatoMezzo.IN_SERVIZIO);
+                                mezzoDAO.update(mezzoInManutenzione);
+                                System.out.println("Riparazione completata!");
+                                System.out.println("Il mezzo " + mezzoInManutenzione.getTarga() + " è tornato IN SERVIZIO. 🚌💨");
+                            } else {
+                                System.out.println("Questa manutenzione risulta già chiusa il " + man.getDataFine());
+                            }
+                        }
                     } else {
-                        System.out.println("Manutenzione non trovata o già conclusa.");
+                        System.out.println("Errore: Impossibile trovare un mezzo associato alla manutenzione ID " + idM);
                     }
                     break;
                 case 0:
@@ -284,9 +316,25 @@ public class AdminMain {
                         Tessera tesseraTrovata = tesseraDAO.findById(idTessera);
 
                         if (tesseraTrovata != null) {
-                            tesseraTrovata.setData_scadenza(LocalDate.now().plusYears(1));
+                            LocalDate oggi = LocalDate.now();
+
+                            if (tesseraTrovata.getDataScadenza().isAfter(oggi)) {
+                                System.out.println("Attenzione: La tessera è ancora valida fino al " + tesseraTrovata.getDataScadenza());
+                                System.out.print("Vuoi rinnovarla comunque anticipatamente? (s/n): ");
+                                String risposta = scanner.nextLine().toLowerCase();
+
+                                if (!risposta.equals("s")) {
+                                    System.out.println("Rinnovo annullato.");
+                                    break;
+                                }
+                            } else {
+                                System.out.println("La tessera è scaduta il " + tesseraTrovata.getDataScadenza() + ". Procedo al rinnovo.");
+                            }
+
+                            tesseraTrovata.setData_scadenza(oggi.plusYears(1));
                             tesseraDAO.update(tesseraTrovata);
                             System.out.println("Tessera rinnovata! La nuova data di scadenza è: " + tesseraTrovata.getDataScadenza());
+
                         } else {
                             System.out.println("Tessera non trovata. Controlla l'UUID e riprova.");
                         }
@@ -296,7 +344,7 @@ public class AdminMain {
                     break;
 
                 case 4:
-                    System.out.println("Inserisci l'ID dell'utente che vorresti rendere ADMIN!");
+                    System.out.println("Inserisci l'UUID dell'utente che vorresti rendere ADMIN!");
                     String uuidUtenteDaAdminizzare = scanner.nextLine();
 
                     try {
@@ -308,11 +356,13 @@ public class AdminMain {
                             System.out.println("Corretto? 1=SI 2=NO");
                             corretto = Integer.parseInt(scanner.nextLine());
                         } while (corretto != 1 && corretto != 2);
-                        if (corretto == 2) break;
-                        else {
+                        if (corretto == 2) {
+                            System.out.println("Annullamento del processo di ADMINIZZAZIONE (termine coniato dalla Crusca)");
+                            break;
+                        } else {
                             daAdminizzare.setUserType(UserType.ADMIN);
                             utenteDAO.update(daAdminizzare);
-                            System.out.println("L'utente è stato impostato come amministratore!");
+                            System.out.println("L'utente" + daAdminizzare.getNome() + " " + daAdminizzare.getCognome() + " è stato impostato come amministratore!");
                         }
                     } catch (Exception e) {
                         System.out.println("Errore: " + e.getMessage());
@@ -338,7 +388,7 @@ public class AdminMain {
             System.out.println("\n--- GESTIONE PUNTI DI EMISSIONE ---");
             System.out.println("1. Aggiungi Rivenditore Autorizzato");
             System.out.println("2. Aggiungi Distributore Automatico");
-            System.out.println("3. Imposta Distributore come 'Fuori Servizio'");
+            System.out.println("3. Cambia lo Stato di un Distributore Automatico (In servizio/Fuori Servizio");
             System.out.println("0. Torna al menu principale");
             System.out.print("Scelta: ");
 
@@ -368,9 +418,21 @@ public class AdminMain {
                     String cittaD = scanner.nextLine();
                     System.out.print("Indirizzo: ");
                     String indirizzoD = scanner.nextLine();
-                    System.out.print("È subito attivo? (true/false): ");
-                    boolean inServizio = scanner.nextBoolean();
-                    scanner.nextLine(); // Svuota buffer
+                    boolean inServizio;
+                    while (true) {
+                        System.out.print("È subito attivo? (S/N): ");
+                        String input = scanner.nextLine().trim().toUpperCase();
+
+                        if (input.equals("S")) {
+                            inServizio = true;
+                            break;
+                        } else if (input.equals("N")) {
+                            inServizio = false;
+                            break;
+                        } else {
+                            System.out.println("Scelta non valida. Inserisci 'S' per Sì o 'N' per No.");
+                        }
+                    }
 
                     DistributoreAutomatico distributore = new DistributoreAutomatico(indirizzoD, cittaD, inServizio);
                     puntoDiEmissioneDAO.save(distributore);
@@ -534,6 +596,170 @@ public class AdminMain {
                 case 0:
                     indietro = true;
                     break;
+            }
+        }
+    }
+
+    //--------------!!!!!!!!!!!
+    //------ MENU STATISTICHE E REPORT
+    //-------------!!!!!!!!!!!
+    private void menuStatisticheReport(Scanner scanner) {
+        boolean indietro = false;
+        while (!indietro) {
+            System.out.println("\n--- STATISTICHE E REPORT ---");
+            System.out.println("1. Conteggio Biglietti emessi da un Punto di Emissione");
+            System.out.println("2. Conteggio Biglietti annullati su un determinato Mezzo");
+            System.out.println("3. Storico manutenzioni e servizio di un Mezzo");
+            System.out.println("4. Statistiche percorrenze e tempo medio su Tratta");
+            System.out.println("0. Torna al menu principale");
+            System.out.print("Scelta: ");
+
+            int scelta = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (scelta) {
+                case 1:
+                    try {
+                        System.out.print("Inserisci l'UUID del Punto di Emissione: ");
+                        UUID idPunto = UUID.fromString(scanner.nextLine());
+                        String filtra;
+                        do {
+                            System.out.print("Vuoi filtrare per un periodo di tempo specifico? (S/N): ");
+                            filtra = scanner.nextLine().trim().toUpperCase();
+                        } while (!filtra.equals("S") && !filtra.equals("N"));
+
+                        if (filtra.equals("S")) {
+                            System.out.print("Data inizio (YYYY-MM-DD): ");
+                            LocalDate inizio = LocalDate.parse(scanner.nextLine());
+                            System.out.print("Data fine (YYYY-MM-DD): ");
+                            LocalDate fine = LocalDate.parse(scanner.nextLine());
+                            Long count = bigliettoDAO.contaPerPuntoEPeriodo(idPunto, inizio, fine);
+                            System.out.println("Biglietti emessi nel periodo: " + count);
+                        } else {
+                            Long count = bigliettoDAO.countAllPerPunto(idPunto);
+                            System.out.println("Totale biglietti emessi: " + count);
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Errore: " + e.getMessage());
+                    }
+                    break;
+
+                case 2:
+                    try {
+                        System.out.print("Inserisci l'ID del Mezzo: ");
+                        Long idMezzo = Long.parseLong(scanner.nextLine());
+                        String filtra;
+                        do {
+                            System.out.print("Vuoi filtrare per un periodo di tempo specifico? (S/N): ");
+                            filtra = scanner.nextLine().trim().toUpperCase();
+                        } while (!filtra.equals("S") && !filtra.equals("N"));
+
+                        if (filtra.equals("S")) {
+                            System.out.print("Data inizio (YYYY-MM-DD): ");
+                            LocalDate inizio = LocalDate.parse(scanner.nextLine());
+                            System.out.print("Data fine (YYYY-MM-DD): ");
+                            LocalDate fine = LocalDate.parse(scanner.nextLine());
+                            Long count = mezzoDAO.bigliettiValidatiSuMezzoPerPeriodo(idMezzo, inizio, fine);
+                            System.out.println("Biglietti annullati nel periodo: " + count);
+                        } else {
+                            Long count = mezzoDAO.bigliettiValidatiSuMezzo(idMezzo);
+                            System.out.println("Totale biglietti annullati sul mezzo: " + count);
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Errore: " + e.getMessage());
+                    }
+                    break;
+
+                case 3:
+                    try {
+                        System.out.print("Inserisci l'ID del Mezzo da ispezionare: ");
+                        Long idMezzo = Long.parseLong(scanner.nextLine());
+                        Mezzo m = mezzoDAO.getById(idMezzo);
+
+                        if (m != null) {
+                            System.out.println("\n--- STORICO MEZZO ID: " + m.getMezzoId() + " ---");
+                            System.out.println("Stato attuale del mezzo: " + m.getStato());
+                            System.out.println("\nPeriodi di Manutenzione registrati:");
+                            if (m.getManutenzioni().isEmpty()) {
+                                System.out.println("Il mezzo non ha mai subito manutenzioni.");
+                            } else {
+                                m.getManutenzioni().forEach(man -> {
+                                    String fine = (man.getDataFine() == null) ? "IN CORSO" : man.getDataFine().toString();
+                                    System.out.println("- Dal: " + man.getDataInizio() + " Al: " + fine + " | Note: " + man.getDescrizione());
+                                });
+                            }
+                        } else {
+                            System.out.println("Mezzo non trovato.");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Errore: " + e.getMessage());
+                    }
+                    break;
+
+                case 4:
+                    try {
+                        System.out.print("Inserisci l'ID del Mezzo: ");
+                        Long idMezzo = Long.parseLong(scanner.nextLine());
+                        System.out.print("Inserisci l'ID della Tratta: ");
+                        Long idTratta = Long.parseLong(scanner.nextLine());
+                        Long conteggio = percorrenzaDAO.contaPercorrenzePerMezzo(idMezzo, idTratta);
+                        Double tempoMedio = percorrenzaDAO.getTempoMedioPerTrattaEMezzo(idTratta, idMezzo);
+
+                        System.out.println("\n---!!!!!! STATISTICHE PERCORRENZA !!!!!!!!---");
+                        System.out.println("Il mezzo (ID: " + idMezzo + ") ha percorso la tratta (ID: " + idTratta + ") esattamente: " + conteggio + " volte.");
+
+                        if (conteggio > 0 && tempoMedio != null) {
+                            System.out.println("Il tempo MEDIO di percorrenza è stato di: " + String.format("%.2f", tempoMedio) + " minuti.");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Errore: " + e.getMessage());
+                    }
+                    break;
+                case 5:
+                    try {
+                        System.out.println("\n--- CONTEGGIO GLOBALE BIGLIETTI EMESSI ---");
+                        System.out.print("Data inizio (YYYY-MM-DD): ");
+                        LocalDate inizio = LocalDate.parse(scanner.nextLine());
+                        System.out.print("Data fine (YYYY-MM-DD): ");
+                        LocalDate fine = LocalDate.parse(scanner.nextLine());
+
+                        Long countGlobale = bigliettoDAO.countBigliettiPerPeriodo(inizio, fine);
+                        System.out.println("Totale biglietti emessi in tutto il sistema nel periodo: " + countGlobale);
+                    } catch (Exception e) {
+                        System.out.println("Errore: " + e.getMessage());
+                    }
+                    break;
+
+                // NUOVO CASO: Elenco tempi effettivi
+                case 6:
+                    try {
+                        System.out.println("\n--- STORICO TEMPI EFFETTIVI DI PERCORRENZA ---");
+                        System.out.print("Inserisci l'ID del Mezzo: ");
+                        Long idMezzo = Long.parseLong(scanner.nextLine());
+                        System.out.print("Inserisci l'ID della Tratta: ");
+                        Long idTratta = Long.parseLong(scanner.nextLine());
+
+                        List<Integer> tempi = percorrenzaDAO.getTempiEffettiviPerMezzoETratta(idMezzo, idTratta);
+
+                        if (tempi.isEmpty()) {
+                            System.out.println("Nessuna percorrenza registrata per il mezzo su questa tratta.");
+                        } else {
+                            System.out.println("Tempi registrati per il mezzo " + idMezzo + " sulla tratta " + idTratta + ":");
+                            for (int i = 0; i < tempi.size(); i++) {
+                                System.out.println("Viaggio " + (i + 1) + ": " + tempi.get(i) + " minuti");
+                            }
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Errore: " + e.getMessage());
+                    }
+                    break;
+
+                case 0:
+                    indietro = true;
+                    break;
+
+                default:
+                    System.out.println("Opzione non valida.");
             }
         }
     }

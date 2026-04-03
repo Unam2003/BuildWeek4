@@ -5,6 +5,7 @@ import emanuelepiemonte.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class BigliettoDAO {
@@ -21,7 +22,6 @@ public class BigliettoDAO {
         t.begin();
         em.persist(newBiglietto);
         t.commit();
-        System.out.println("Biglietto " + newBiglietto.getBigliettoId() + " erogato con successo");
     }
 
     //UPDATE
@@ -52,5 +52,30 @@ public class BigliettoDAO {
         System.out.println("Biglietto " + found.getBigliettoId() + " eliminato con successo");
     }
 
+    //Conteggio Biglietti emessi da un punto in un periodo di tempo
+    public Long contaPerPuntoEPeriodo(UUID puntoId, LocalDate inizio, LocalDate fine) {
+        return em.createQuery(
+                        "SELECT COUNT(b) FROM Biglietto b WHERE b.rivenditore.emissioneId = :puntoId AND b.dataEmissione BETWEEN :inizio AND :fine", Long.class)
+                .setParameter("puntoId", puntoId)
+                .setParameter("inizio", inizio)
+                .setParameter("fine", fine)
+                .getSingleResult();
+    }
 
+    //Conteggio Biglietto emessi da un punto in generale (alltime)
+    public Long countAllPerPunto(UUID puntoId) {
+        return em.createQuery(
+                        "SELECT COUNT(b) FROM Biglietto b WHERE b.rivenditore.emissioneId = :puntoId", Long.class)
+                .setParameter("puntoId", puntoId)
+                .getSingleResult();
+    }
+
+    // Conteggio Biglietti Emessi in un certo periodo di tempo (indipendentemente dal punto)
+    public Long countBigliettiPerPeriodo(LocalDate inizio, LocalDate fine) {
+        return em.createQuery(
+                        "SELECT COUNT(b) FROM Biglietto b WHERE b.dataEmissione BETWEEN :inizio AND :fine", Long.class)
+                .setParameter("inizio", inizio)
+                .setParameter("fine", fine)
+                .getSingleResult();
+    }
 }

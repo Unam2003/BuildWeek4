@@ -113,4 +113,21 @@ public class PercorrenzaTrattaDAO {
             System.out.println("Tratta: " + riga[0] + " -> " + riga[1] + " | Volte percorse: " + riga[2]);
         }
     }
+
+    //Conteggio per mezzo di quante volte ha percorso una tratta
+    public Long contaPercorrenzePerMezzo(Long mezzoId, Long trattaId) {
+        return em.createQuery(
+                        "SELECT COUNT(p) FROM PercorrenzaTratta p WHERE p.mezzo.mezzoId = :mezzoId AND p.tratta.id = :trattaId", Long.class)
+                .setParameter("mezzoId", mezzoId)
+                .setParameter("trattaId", trattaId)
+                .getSingleResult();
+    }
+
+    public List<Integer> getTempiEffettiviPerMezzoETratta(Long mezzoId, Long trattaId) {
+        return em.createQuery(
+                        "SELECT p.tempoEffettivo FROM PercorrenzaTratta p WHERE p.mezzo.mezzoId = :mezzoId AND p.tratta.id = :trattaId", Integer.class)
+                .setParameter("mezzoId", mezzoId)
+                .setParameter("trattaId", trattaId)
+                .getResultList();
+    }
 }

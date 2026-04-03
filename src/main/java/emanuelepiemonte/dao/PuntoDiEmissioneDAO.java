@@ -22,7 +22,7 @@ public class PuntoDiEmissioneDAO {
         transaction.begin();
         em.persist(newPuntoDiEmissione);
         transaction.commit();
-        System.out.println("L'emissione " + newPuntoDiEmissione.getEmissioneId() + " è stato salvato correttamente!");
+        System.out.println("Il " + newPuntoDiEmissione.toString() + " è stato salvato correttamente!");
     }
 
     public void update(PuntoDiEmissione newPuntoDiEmissione) {
@@ -30,7 +30,7 @@ public class PuntoDiEmissioneDAO {
         transaction.begin();
         em.merge(newPuntoDiEmissione);
         transaction.commit();
-        System.out.println("L'emissione " + newPuntoDiEmissione.getEmissioneId() + " è stato aggiornato correttamente!");
+        System.out.println("Il " + newPuntoDiEmissione.toString() + " è stato aggiornato correttamente!");
     }
 
     public PuntoDiEmissione trovaPuntoById(UUID emissioneId) {
@@ -44,7 +44,7 @@ public class PuntoDiEmissioneDAO {
     }
 
     public List<PuntoDiEmissione> trovaPuntiPerCitta(String citta) {
-        List<PuntoDiEmissione> punti = em.createQuery("SELECT p FROM PuntoDiEmissione p WHERE p.citta = :citta", PuntoDiEmissione.class)
+        List<PuntoDiEmissione> punti = em.createQuery("SELECT p FROM PuntoDiEmissione p WHERE LOWER(p.citta) = LOWER(:citta)", PuntoDiEmissione.class)
                 .setParameter("citta", citta)
                 .getResultList();
         if (punti == null) {
