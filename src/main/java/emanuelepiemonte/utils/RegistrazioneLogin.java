@@ -21,7 +21,6 @@ public class RegistrazioneLogin {
         String cognome;
         Sesso sesso;
         LocalDate dataDiNascita;
-        UserType userType;
         String pw;
         System.out.println("--------------REGISTRATI--------------");
         System.out.println("Inserisci il nome");
@@ -76,33 +75,13 @@ public class RegistrazioneLogin {
                 System.out.println("consentito: gg/mm/yyyy (es. 25/12/2000)");
             }
         }
-        System.out.println("Selezionare il tipo di utente(ADMIN o USER)");
-        while (true) {
-            String input = scanner.nextLine().toLowerCase();
-            switch (input) {
-                case "admin" -> {
-                    userType = UserType.ADMIN;
-                    break;
-                }
-                case "user" -> {
-                    userType = UserType.USER;
-                    break;
-                }
-                default -> {
-                    System.out.println("Valore non valido");
-                    System.out.println("Valori consentiti: admin o user");
-                    continue;
-                }
-            }
-            break;
-        }
         System.out.println("Seleziona una password (lunghezza compresa tra i 6 e i 10 caratteri)");
         while (true) {
             pw = scanner.nextLine();
             if (pw.length() > 5 && pw.length() < 10) break;
             System.out.println("Password non valida, deve essere compresa tra 6 e 10 caratteri");
         }
-        Utente nuovoUtente = new Utente(nome, cognome, sesso, dataDiNascita, userType, pw);
+        Utente nuovoUtente = new Utente(nome, cognome, sesso, dataDiNascita, UserType.USER, pw);
         UtenteDAO ud = new UtenteDAO(em);
         ud.save(nuovoUtente);
     }
